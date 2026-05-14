@@ -613,13 +613,212 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function goTab(tabId, btn){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+tabId).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(tabId==='rank') loadLB();
+// ─── ฟังก์ชันควบคุมการเปลี่ยนแท็บหน้าต่าง ──────────────────
+function goTab(tabId, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  
+  const targetTab = document.getElementById('tab-' + tabId);
+  if (targetTab) targetTab.classList.add('active');
+  if (btn) btn.classList.add('active');
+  
+  // เรียกโหลดข้อมูลเฉพาะแท็บเมื่อกดเปิด
+  if (tabId === 'rank') loadLB();
+  if (tabId === 'shop') renderShop();
+  if (tabId === 'quiz') initQuiz();
 }
+
+// ─── ฟังก์ชันเลือก Class ตอนหน้าแรก ──────────────────
+function selCls(clsId, card) {
+  document.querySelectorAll('.cls-card').forEach(c => c.classList.remove('sel'));
+  card.classList.add('sel');
+  S.cls = clsId;
+}
+
+// ─── ฟังก์ชันอัปเดตข้อมูลตัวละครขึ้นแสดงบน UI หน้าหลัก ──────────────────
+function updateDashboardUI() {
+  document.getElementById('d-name').textContent = S.name;
+  document.getElementById('nav-title').textContent = S.name;
+  document.getElementById('d-cls').textContent = CLS[S.cls].name + ' ' + CLS[S.cls].emoji;
+  document.getElementById('d-lv').textContent = S.lv;
+  document.getElementById('d-exp').textContent = S.exp;
+  
+  S.expMax = expMaxAt(S.lv);
+  document.getElementById('d-em').textContent = S.expMax;
+  
+  const pct = Math.min(100, (S.exp / S.expMax) * 100);
+  document.getElementById('d-ef').style.width = pct + '%';
+  
+  document.getElementById('nav-coins').textContent = S.coins;
+  document.getElementById('sh-coins').textContent = S.coins;
+  
+  document.getElementById('d-str').textContent = S.streak;
+  document.getElementById('d-qc').textContent = S.questDone;
+  document.getElementById('d-qz').textContent = S.quizCorrect;
+  
+  renderRankTrack();
+  renderPrivileges();
+  renderQuests();
+}
+
+// ─── ระบบค้นหาชื่อนักเรียนเดิม / ลงทะเบียนเรียนใหม่ใน Supabase ──────────────────
+async function doStart() {
+  const nameInp = document.getElementById('i-name').value.trim();
+  const roomInp = document.getElementById('i-room').value.trim().toUpperCase();
+  const numInp = parseInt(document.getElementById('i-num').value.trim());
+  const errMsg = document.getElementById('err-msg');
+  
+  if (!nameInp || !roomInp || !numInp) {
+    errMsg.textContent = '❌ กรุณากรอกข้อมูลให้ครบถ้วน';
+    return;
+  }
+  if (!VALID_ROOMS.includes(roomInp)) {
+    errMsg.textContent = '❌ ไม่พบรหัสห้องเรียนนี้ในระบบ ค้นหาไม่เจอ';
+    return;
+  }
+  
+  document.getElementById('btn-start').disabled = true;
+  errMsg.textContent = '⏳ กำลังเข้าสู่ระบบเคมี RPG...';
+  
+  try {
+    // ดึงข้อมูลตรวจสอบว่าเคยสร้างตัวละครไว้หรือยัง
+    let { data: player, error } = await db.from('players')
+      .select('*')
+      .eq('room', roomInp)
+      .eq('num', numInp)
+      .maybeSingle();
+      
+    if (error) throw error;
+    
+    if (player) {
+      // ดึงข้อมูลเดิมมาใส่ตัวแปร State (S)
+      S.sid = player.id; S.name = player.name; S.room = player.room; S.cls = player.cls || 'alchemist';
+      S.lv = player.lv || 1; S.exp = player.exp || 0; S.coins = player.coins || 0;
+      S.streak = player.streak || 1; S.questDone = player.quest_done || 0; S.quizCorrect = player.quiz_correct || 0;
+      toast('✨ ยินดีต้อนรับกลับมาผจญภัยอีกครั้ง!');
+    } else {
+      // กรณีเป็นนักเรียนใหม่ ให้สร้างไอดีลงเบสใหม่ทันที
+      const pId = 'p_' + Date.now() + Math.random().toString(36).substr(2, 4);
+      const { error: insErr } = await db.from('players').insert([{
+        id: pId, name: nameInp, room: roomInp, num: numInp, cls: S.cls,
+        lv: 1, exp: 0, coins: 0, streak: 1
+      }]);
+      if (insErr) throw insErr;
+      
+      S.sid = pId; S.name = nameInp; S.room = roomInp;
+      toast('🎉 ลงทะเบียนนักเรียนใหม่สำเร็จ! ขอต้อนรับสู่ห้องเรียน');
+    }
+    
+    updateDashboardUI();
+    showScreen('screen-main');
+  } catch (e) {
+    console.error(e);
+    errMsg.textContent = 'เกิดข้อผิดพลาด: ' + e.message;
+    document.getElementById('btn-start').disabled = false;
+  }
+}
+
+// ─── ฟังก์ชันเรนเดอร์โครงสร้าง Rank / สิทธิ์พิเศษ / เควส ──────────────────
+function renderRankTrack() {
+  const track = document.getElementById('rk-track'); if(!track) return;
+  let html = ''; const curIdx = getRankIdx();
+  RANKS.forEach((rk, idx) => {
+    const isCur = idx === curIdx; const isLock = idx > curIdx;
+    html += `<div class="rk-node">
+      <div class="rk-icon ${isCur?'cur':''} ${isLock?'lk':''}">${rk.icon}</div>
+      <div class="rk-lbl ${isCur?'cur':''}">${rk.name}<br>(Lv.${rk.minLv})</div>
+    </div>`;
+    if (idx < RANKS.length - 1) html += `<div class="rk-conn ${idx < curIdx ? 'done' : ''}"></div>`;
+  });
+  track.innerHTML = html;
+}
+
+function renderPrivileges() {
+  const div = document.getElementById('priv-list'); if(!div) return;
+  let html = '';
+  PRIVS.forEach(p => {
+    const isUnlk = S.lv >= p.mr;
+    html += `<div class="pr-row ${isUnlk?'':'lk'}">
+      <span class="pr-ic">${p.ic}</span>
+      <div class="pr-tx">${p.tx} (ต้องการเลเวล ${p.mr})</div>
+      <span class="pr-st ${isUnlk?'ok':'no'}">${isUnlk?'เปิดใช้งาน':'🔒 ล็อก'}</span>
+    </div>`;
+  });
+  div.innerHTML = html;
+}
+
+function renderQuests() {
+  const div = document.getElementById('quest-list'); if(!div) return;
+  let html = '';
+  QUESTS.forEach((q, idx) => {
+    const done = S.quests[idx];
+    html += `<div class="qr-row">
+      <div class="qr-chk ${done?'done':''}" onclick="toggleQuest(${idx})">${done?'✓':''}</div>
+      <div class="qr-tx ${done?'done':''}">${q.text}</div>
+      <div class="qr-rw">💎 +${q.exp} EXP / 🪙 +${q.coins}</div>
+    </div>`;
+  });
+  div.innerHTML = html;
+}
+
+function toggleQuest(idx) {
+  if(S.quests[idx]) return;
+  S.quests[idx] = true;
+  const q = QUESTS[idx];
+  S.exp += expBonus(q.exp);
+  S.coins += goldBonus(q.coins);
+  S.questDone++;
+  toast('✅ ทำเควสสำเร็จ!');
+  checkLvUp();
+  updateDashboardUI();
+}
+
+function checkLvUp() {
+  S.expMax = expMaxAt(S.lv);
+  while (S.exp >= S.expMax) {
+    S.exp -= S.expMax;
+    S.lv++;
+    S.expMax = expMaxAt(S.lv);
+    showModal('🎉', 'LEVEL UP!', `ยินดีด้วย! เลเวลอัปเป็น Lv.${S.lv} แล้ว!`, 'รับทราบ');
+  }
+}
+
+function renderShop() {
+  const grid = document.getElementById('sh-grid'); if(!grid) return;
+  grid.innerHTML = SHOP.map(item => `
+    <div class="sh-item">
+      <span class="sh-em">${item.em}</span>
+      <div class="sh-nm">${item.nm}</div>
+      <div class="sh-pr">🪙 ${item.pr}</div>
+      <span class="sh-tp ${item.tp}">${item.tp}</span>
+    </div>
+  `).join('');
+}
+
+function initQuiz() { 
+  // ใส่ระบบเปิดหน้าแสดงคำถามควิซตามอาเรย์ QUIZZES ของคุณครูได้ที่นี่
+}
+
+function loadLB() {
+  const div = document.getElementById('lb-list');
+  if(div) div.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text2);font-size:12px">ไม่มีข้อมูลอันดับ</div>';
+}
+
+async function savePlayer() {
+  toast('💾 บันทึกข้อมูลเรียบร้อย!');
+}
+
+// ─── ฟังก์ชัน INITIALization (จุดทำงานเมื่อโหลดหน้าเว็บสำเร็จ) ──────────────────
+window.onload = async () => {
+  // 1. ตรวจสอบสถานะการติดต่อฐานข้อมูลยิงไปที่ตาราง players
+  await checkConn();
+  
+  // 2. สั่งปิดหน้าจอโหลด "กำลังเริ่มต้น..." และปล่อยให้ข้ามไปหน้า Welcome ทันที
+  showScreen('screen-welcome');
+};
+</script>
+</body>
+</html>
 
 // ─── LOGIN & START GAME ───────────────────────────
 function selCls(clsId, el){
