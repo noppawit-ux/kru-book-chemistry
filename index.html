@@ -6,20 +6,17 @@
 <title>⚗️ KruBook Chemistry Classroom</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 :root{
-  --bg:#0d0f1a; --bg2:#13172a; --bg3:#1a2040; --card:#1e2447;
-  --border:rgba(124,77,255,.25); --purple:#7c4dff; --purp2:#5c35cc;
-  --teal:#00d4b4; --gold:#f5c842; --gold2:#e8a020;
-  --red:#ff4d6d; --text:#e8eaf6; --text2:#9fa8da; --green:#4caf50;
+  --bg:#0d0f1a;--bg2:#13172a;--bg3:#1a2040;--card:#1e2447;
+  --border:rgba(124,77,255,.25);--purple:#7c4dff;--purp2:#5c35cc;
+  --teal:#00d4b4;--gold:#f5c842;--gold2:#e8a020;
+  --red:#ff4d6d;--text:#e8eaf6;--text2:#9fa8da;--green:#4caf50;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Prompt',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:
-    radial-gradient(1px 1px at 12% 20%,rgba(255,255,255,.4) 0%,transparent 100%),
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1px 1px at 12% 20%,rgba(255,255,255,.4) 0%,transparent 100%),
     radial-gradient(1px 1px at 58% 9%,rgba(255,255,255,.3) 0%,transparent 100%),
     radial-gradient(1px 1px at 83% 44%,rgba(255,255,255,.35) 0%,transparent 100%),
     radial-gradient(1px 1px at 36% 70%,rgba(255,255,255,.2) 0%,transparent 100%),
@@ -29,49 +26,27 @@ body::before{
     radial-gradient(1px 1px at 27% 14%,rgba(255,255,255,.3) 0%,transparent 100%),
     radial-gradient(1px 1px at 75% 93%,rgba(255,255,255,.2) 0%,transparent 100%);
 }
-
-/* ── screens ── */
 .screen{display:none;position:relative;z-index:1;min-height:100vh}
 .screen.active{display:block}
 #screen-loading.active{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
-
-/* ── loading ── */
 .spinner{width:48px;height:48px;border:4px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── nav ── */
-.nav{
-  background:rgba(13,15,26,.97);border-bottom:1px solid var(--border);
-  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px;
-}
+.nav{background:rgba(13,15,26,.97);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
 .nav-logo{font-family:'Cinzel',serif;font-size:14px;color:var(--gold);display:flex;align-items:center;gap:6px}
 .nav-tabs{display:flex;gap:3px;flex-wrap:wrap}
-.nav-tab{
-  background:none;border:none;color:var(--text2);font-family:'Prompt',sans-serif;
-  font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;cursor:pointer;transition:all .2s;
-}
+.nav-tab{background:none;border:none;color:var(--text2);font-family:'Prompt',sans-serif;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;cursor:pointer;transition:all .2s}
 .nav-tab:hover,.nav-tab.active{background:var(--purple);color:#fff}
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-coins{background:var(--bg3);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;color:var(--gold)}
-.save-btn{
-  background:var(--teal);color:#003830;border:none;border-radius:8px;
-  padding:5px 12px;font-family:'Prompt',sans-serif;font-size:12px;font-weight:700;cursor:pointer;
-  transition:all .2s;
-}
+.save-btn{background:var(--teal);color:#003830;border:none;border-radius:8px;padding:5px 12px;font-family:'Prompt',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
 .save-btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* ── welcome ── */
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px;text-align:center;min-height:100vh}
 .w-logo{font-size:52px;animation:float 3s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .w-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);margin:10px 0 4px}
 .w-sub{font-size:12px;color:var(--text2);margin-bottom:24px}
 .class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:520px;margin-bottom:18px}
-.cls-card{
-  background:var(--card);border:2px solid transparent;border-radius:12px;
-  padding:16px 8px;cursor:pointer;transition:all .25s;text-align:center;
-}
+.cls-card{background:var(--card);border:2px solid transparent;border-radius:12px;padding:16px 8px;cursor:pointer;transition:all .25s;text-align:center}
 .cls-card:hover{border-color:var(--purple);transform:translateY(-2px)}
 .cls-card.sel{border-color:var(--gold);background:rgba(245,200,66,.07)}
 .cls-em{font-size:32px;display:block;margin-bottom:6px}
@@ -79,51 +54,24 @@ body::before{
 .cls-ds{font-size:9px;color:var(--text2);line-height:1.3}
 .cls-bns{margin-top:6px;font-size:9px;background:rgba(124,77,255,.2);border-radius:20px;padding:2px 7px;color:var(--purple);font-weight:700;display:inline-block}
 .login-box{width:100%;max-width:360px;margin-bottom:16px}
-.inp{
-  width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  padding:10px 14px;color:var(--text);font-family:'Prompt',sans-serif;font-size:13px;margin-bottom:8px;
-}
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Prompt',sans-serif;font-size:13px;margin-bottom:8px}
 .inp::placeholder{color:var(--text2)}
 .inp:focus{outline:none;border-color:var(--purple)}
 .row2{display:flex;gap:8px}
 .row2 .inp{margin-bottom:0}
-.btn-gold{
-  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1200;border:none;
-  border-radius:10px;padding:11px 0;font-family:'Prompt',sans-serif;font-size:14px;
-  font-weight:700;cursor:pointer;width:100%;margin-top:10px;transition:all .2s;
-}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1200;border:none;border-radius:10px;padding:11px 0;font-family:'Prompt',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:10px;transition:all .2s}
 .btn-gold:disabled{opacity:.4;cursor:not-allowed}
-.btn-p{
-  background:linear-gradient(135deg,var(--purple),var(--purp2));color:#fff;border:none;
-  border-radius:10px;padding:9px 20px;font-family:'Prompt',sans-serif;font-size:12px;
-  font-weight:600;cursor:pointer;transition:all .2s;
-}
+.btn-p{background:linear-gradient(135deg,var(--purple),var(--purp2));color:#fff;border:none;border-radius:10px;padding:9px 20px;font-family:'Prompt',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 .err-msg{color:var(--red);font-size:11px;margin-top:4px;min-height:16px}
-.conn-badge{
-  display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:12px;
-  background:var(--bg3);border-radius:20px;padding:4px 14px;color:var(--text2);
-}
+.conn-badge{display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:12px;background:var(--bg3);border-radius:20px;padding:4px 14px;color:var(--text2)}
 .conn-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0}
 .conn-dot.ok{background:var(--green)}
-
-/* ── tabs ── */
 .tab{display:none;padding:14px;max-width:860px;margin:0 auto}
 .tab.active{display:block}
-
-/* ── hero card ── */
-.hero-card{
-  background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:18px;display:flex;gap:16px;margin-bottom:14px;align-items:flex-start;flex-wrap:wrap;
-}
+.hero-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;gap:16px;margin-bottom:14px;align-items:flex-start;flex-wrap:wrap}
 .av-wrap{position:relative;flex-shrink:0}
-.av{
-  width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);
-  background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:42px;
-}
-.rk-badge{
-  position:absolute;bottom:-4px;right:-4px;background:var(--gold);color:#1a1200;
-  border-radius:20px;padding:2px 8px;font-size:9px;font-weight:800;white-space:nowrap;
-}
+.av{width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:42px}
+.rk-badge{position:absolute;bottom:-4px;right:-4px;background:var(--gold);color:#1a1200;border-radius:20px;padding:2px 8px;font-size:9px;font-weight:800;white-space:nowrap}
 .h-info{flex:1;min-width:200px}
 .h-name{font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:2px}
 .h-cls{font-size:11px;color:var(--text2);margin-bottom:8px}
@@ -134,39 +82,21 @@ body::before{
 .st{display:flex;flex-direction:column;align-items:center;background:var(--bg3);border-radius:10px;padding:6px 12px;min-width:50px}
 .st-v{font-size:16px;font-weight:700;color:var(--teal)}
 .st-l{font-size:9px;color:var(--text2);font-weight:600}
-
-/* ── section title ── */
 .sec{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin:14px 0 8px;display:flex;align-items:center;gap:6px}
-
-/* ── rank track ── */
-.rk-track{
-  display:flex;align-items:center;background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:12px;margin-bottom:14px;overflow-x:auto;gap:2px;
-}
+.rk-track{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;overflow-x:auto;gap:2px}
 .rk-node{display:flex;flex-direction:column;align-items:center;flex:1;min-width:52px}
-.rk-icon{
-  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:18px;margin-bottom:3px;border:2px solid transparent;transition:all .3s;
-}
+.rk-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:3px;border:2px solid transparent;transition:all .3s}
 .rk-icon.cur{border-color:var(--gold);box-shadow:0 0 12px rgba(245,200,66,.4)}
 .rk-icon.lk{opacity:.22;filter:grayscale(1)}
 .rk-lbl{font-size:8px;font-weight:700;color:var(--text2);text-align:center}
 .rk-lbl.cur{color:var(--gold)}
 .rk-conn{height:2px;flex:.4;border-radius:1px;background:var(--border);margin-top:-16px;flex-shrink:0}
 .rk-conn.done{background:var(--gold)}
-
-/* ── quick ── */
 .q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.q-btn{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;
-  cursor:pointer;text-align:center;font-family:'Prompt',sans-serif;font-size:11px;color:var(--text);
-  font-weight:600;transition:all .2s;
-}
+.q-btn{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;cursor:pointer;text-align:center;font-family:'Prompt',sans-serif;font-size:11px;color:var(--text);font-weight:600;transition:all .2s}
 .q-btn:hover{border-color:var(--purple);transform:translateY(-2px)}
 .q-ic{font-size:22px;display:block;margin-bottom:4px}
 .q-rw{font-size:9px;color:var(--gold);margin-top:3px}
-
-/* ── privilege ── */
 .priv-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
 .pr-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
 .pr-row:last-child{border-bottom:none}
@@ -177,15 +107,23 @@ body::before{
 .pr-st.ok{color:var(--teal)}
 .pr-st.no{color:var(--text2)}
 
-/* ── quest ── */
+/* ── ASSIGNMENTS (นักเรียน) ── */
+.asgn-student-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.asgn-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.asgn-row:last-child{border-bottom:none}
+.asgn-ic{font-size:20px;flex-shrink:0}
+.asgn-info{flex:1;min-width:0}
+.asgn-title{font-size:12px;font-weight:700}
+.asgn-meta{font-size:10px;color:var(--text2);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.asgn-status{font-size:11px;font-weight:700;white-space:nowrap}
+.asgn-status.su{color:var(--teal)}
+.asgn-status.mi{color:var(--red)}
+.asgn-status.la{color:var(--orange)}
+
 .quest-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px}
 .qr-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
 .qr-row:last-child{border-bottom:none}
-.qr-chk{
-  width:22px;height:22px;border-radius:50%;border:2px solid var(--border);
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;background:transparent;transition:all .2s;
-}
+.qr-chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:transparent;transition:all .2s}
 .qr-chk.done{background:var(--teal);border-color:var(--teal);cursor:default}
 .qr-tx{flex:1;font-size:11px;line-height:1.4}
 .qr-tx.done{text-decoration:line-through;color:var(--text2)}
@@ -193,8 +131,6 @@ body::before{
 .wk-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .wk-row{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
 .wk-row:last-child{border-bottom:none}
-
-/* ── quiz ── */
 .qz-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
 .qz-hdr{display:flex;justify-content:space-between;margin-bottom:10px}
 .qz-prog{font-size:11px;color:var(--text2)}
@@ -202,11 +138,7 @@ body::before{
 .qz-pfill{height:100%;background:linear-gradient(90deg,var(--purple),var(--teal));border-radius:6px;transition:width .4s}
 .qz-q{font-size:13px;line-height:1.6;margin-bottom:12px;font-weight:600}
 .qz-opts{display:flex;flex-direction:column;gap:7px}
-.qz-opt{
-  background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 12px;
-  font-size:12px;cursor:pointer;text-align:left;color:var(--text);font-family:'Prompt',sans-serif;
-  display:flex;align-items:center;gap:8px;transition:all .2s;
-}
+.qz-opt{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:12px;cursor:pointer;text-align:left;color:var(--text);font-family:'Prompt',sans-serif;display:flex;align-items:center;gap:8px;transition:all .2s}
 .qz-opt:hover:not(:disabled){border-color:var(--purple);background:rgba(124,77,255,.1)}
 .qz-opt.ok{border-color:var(--teal);background:rgba(0,212,180,.1);color:var(--teal)}
 .qz-opt.bad{border-color:var(--red);background:rgba(255,77,109,.1);color:var(--red)}
@@ -217,19 +149,11 @@ body::before{
 .qz-res.bad{background:rgba(255,77,109,.1);color:var(--red)}
 .qz-done{text-align:center;padding:28px 14px}
 .qz-done .big{font-size:48px;margin-bottom:10px}
-
-/* ── shop ── */
 .sh-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.sh-tab{
-  background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 12px;
-  font-size:11px;cursor:pointer;color:var(--text2);font-family:'Prompt',sans-serif;transition:all .2s;
-}
+.sh-tab{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;color:var(--text2);font-family:'Prompt',sans-serif;transition:all .2s}
 .sh-tab.active{background:var(--purple);color:#fff;border-color:var(--purple)}
 .sh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px}
-.sh-item{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:12px 8px;text-align:center;cursor:pointer;transition:all .25s;position:relative;
-}
+.sh-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .25s;position:relative}
 .sh-item:hover:not(.owned):not(.lk-item){border-color:var(--gold);transform:translateY(-2px)}
 .sh-item.owned{border-color:var(--teal);opacity:.7;cursor:default}
 .sh-item.lk-item{opacity:.32;cursor:not-allowed}
@@ -241,8 +165,6 @@ body::before{
 .sh-tp.boost{background:rgba(0,212,180,.2);color:var(--teal)}
 .sh-tp.privilege{background:rgba(245,200,66,.2);color:var(--gold)}
 .lk-lbl{position:absolute;top:5px;right:5px;font-size:9px;font-weight:700;background:rgba(0,0,0,.5);border-radius:5px;padding:2px 5px}
-
-/* ── mini game ── */
 .gm-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
 .gm-hdr{display:flex;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
 .gm-st{font-size:12px;font-weight:700}
@@ -251,11 +173,7 @@ body::before{
 .match-area{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .match-col{display:flex;flex-direction:column;gap:7px}
 .match-col-h{font-size:10px;font-weight:700;color:var(--text2);text-align:center;padding-bottom:3px;border-bottom:1px solid var(--border)}
-.tile{
-  background:var(--bg3);border:2px solid var(--border);border-radius:9px;
-  padding:9px 6px;cursor:pointer;transition:all .2s;text-align:center;min-height:48px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
+.tile{background:var(--bg3);border:2px solid var(--border);border-radius:9px;padding:9px 6px;cursor:pointer;transition:all .2s;text-align:center;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .tile:hover{border-color:var(--purple)}
 .tile.sel{border-color:var(--gold);background:rgba(245,200,66,.07)}
 .tile.matched{border-color:var(--teal);background:rgba(0,212,180,.09);cursor:default}
@@ -264,53 +182,38 @@ body::before{
 .el-sym{font-size:17px;font-weight:800;color:var(--teal)}
 .el-nm{font-size:9px;color:var(--text2);margin-top:1px}
 .el-n{font-size:8px;color:rgba(255,255,255,.3)}
-
-/* ── leaderboard ── */
 .lb-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
 .lb-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
 .lb-row:last-child{border-bottom:none}
 .lb-row.me{background:rgba(245,200,66,.06)}
 .lb-rk{width:26px;text-align:center;font-size:13px;font-weight:800;flex-shrink:0}
-.lb-rk.g{color:var(--gold)} .lb-rk.s{color:#c0c0d0} .lb-rk.b{color:#cd7f32}
+.lb-rk.g{color:var(--gold)}.lb-rk.s{color:#c0c0d0}.lb-rk.b{color:#cd7f32}
 .lb-av{width:34px;height:34px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .lb-inf{flex:1}
 .lb-nm{font-size:12px;font-weight:700}
 .lb-sb{font-size:10px;color:var(--text2)}
 .lb-ep{font-size:13px;font-weight:800;color:var(--teal);white-space:nowrap}
-
-/* ── toast ── */
-.toast{
-  position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
-  background:var(--card);border:1px solid var(--teal);color:var(--teal);
-  border-radius:20px;padding:9px 20px;font-size:12px;font-weight:700;
-  z-index:999;animation:tIn .3s ease;pointer-events:none;white-space:nowrap;
-}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:9px 20px;font-size:12px;font-weight:700;z-index:999;animation:tIn .3s ease;pointer-events:none;white-space:nowrap}
 @keyframes tIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-/* ── modal ── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
 .modal-box{background:var(--card);border:2px solid var(--gold);border-radius:18px;padding:28px 22px;text-align:center;max-width:300px;width:100%;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-ic{font-size:54px;display:block;margin-bottom:12px}
 .modal-t{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);margin-bottom:6px}
 .modal-d{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.6}
-
-@media(max-width:560px){
-  .class-grid{grid-template-columns:1fr 1fr}
-  .q-grid{grid-template-columns:repeat(3,1fr)}
-  .nav-tabs .nav-tab{font-size:10px;padding:5px 7px}
-}
+@media(max-width:560px){.class-grid{grid-template-columns:1fr 1fr}.q-grid{grid-template-columns:repeat(3,1fr)}.nav-tabs .nav-tab{font-size:10px;padding:5px 7px}}
 </style>
 </head>
 <body>
 
 <script>
+/* ══ CONFIG — ตรงกับ SQL และ teacher.html ══ */
 const SUPABASE_URL = 'https://dbljnonpodjgjbklelug.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRibGpub25wb2RqZ2pia2xlbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzI0MDYsImV4cCI6MjA5NDMwODQwNn0.2SQeywljjZ0ibkNldP9TdPyIBBVYI02aI4g2FxDvKMI';
 const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216'];
 </script>
 
-<!-- ── Loading ── -->
+<!-- Loading -->
 <div id="screen-loading" class="screen active">
   <div style="text-align:center">
     <div style="font-size:48px;margin-bottom:16px">⚗️</div>
@@ -319,40 +222,31 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
   </div>
 </div>
 
-<!-- ── Welcome / Login ── -->
+<!-- Welcome -->
 <div id="screen-welcome" class="screen">
 <div class="welcome">
   <div class="w-logo">⚗️</div>
   <div class="w-title">KRU BOOK CLASSROOM</div>
   <div class="w-sub">Chemistry RPG • ม.ปลาย</div>
-
   <div class="conn-badge">
     <div class="conn-dot" id="conn-dot"></div>
     <span id="conn-txt">กำลังเชื่อมต่อ Supabase...</span>
   </div>
-
   <div class="sec">🧪 เลือก Class</div>
   <div class="class-grid">
     <div class="cls-card sel" id="cls-alchemist" onclick="selCls('alchemist',this)">
-      <span class="cls-em">🧙</span>
-      <div class="cls-nm">Alchemist</div>
-      <div class="cls-ds">เชี่ยวชาญสูตรและการทดลอง</div>
-      <div class="cls-bns">EXP +30%</div>
+      <span class="cls-em">🧙</span><div class="cls-nm">Alchemist</div>
+      <div class="cls-ds">เชี่ยวชาญสูตรและการทดลอง</div><div class="cls-bns">EXP +30%</div>
     </div>
     <div class="cls-card" id="cls-scientist" onclick="selCls('scientist',this)">
-      <span class="cls-em">🔬</span>
-      <div class="cls-nm">Scientist</div>
-      <div class="cls-ds">แม่นยำ วิเคราะห์ Quiz เก่ง</div>
-      <div class="cls-bns">Gold +50%</div>
+      <span class="cls-em">🔬</span><div class="cls-nm">Scientist</div>
+      <div class="cls-ds">แม่นยำ วิเคราะห์ Quiz เก่ง</div><div class="cls-bns">Gold +50%</div>
     </div>
     <div class="cls-card" id="cls-explorer" onclick="selCls('explorer',this)">
-      <span class="cls-em">🗺️</span>
-      <div class="cls-nm">Explorer</div>
-      <div class="cls-ds">สำรวจและเรียนรู้ทุกอย่าง</div>
-      <div class="cls-bns">Quest x2</div>
+      <span class="cls-em">🗺️</span><div class="cls-nm">Explorer</div>
+      <div class="cls-ds">สำรวจและเรียนรู้ทุกอย่าง</div><div class="cls-bns">Quest x2</div>
     </div>
   </div>
-
   <div class="login-box">
     <input class="inp" id="i-name" placeholder="ชื่อ-นามสกุล..." maxlength="30">
     <div class="row2">
@@ -365,7 +259,7 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
 </div>
 </div>
 
-<!-- ── Main App ── -->
+<!-- Main App -->
 <div id="screen-main" class="screen">
   <nav class="nav">
     <div class="nav-logo">⚗️ <span id="nav-title">KRU BOOK</span></div>
@@ -373,6 +267,7 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
       <button class="nav-tab active" onclick="goTab('dashboard',this)">🏠</button>
       <button class="nav-tab" onclick="goTab('quest',this)">📋 เควส</button>
       <button class="nav-tab" onclick="goTab('quiz',this)">🧪 Quiz</button>
+      <button class="nav-tab" onclick="goTab('homework',this)">📚 การบ้าน</button>
       <button class="nav-tab" onclick="goTab('shop',this)">🏪 ร้านค้า</button>
       <button class="nav-tab" onclick="goTab('game',this)">🎮 เกม</button>
       <button class="nav-tab" onclick="goTab('rank',this)">🏆 อันดับ</button>
@@ -392,7 +287,7 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
       </div>
       <div class="h-info">
         <div class="h-name" id="d-name">-</div>
-        <div class="h-cls"  id="d-cls">-</div>
+        <div class="h-cls" id="d-cls">-</div>
         <div class="exp-lbl"><span>Lv.<span id="d-lv">1</span></span><span><span id="d-exp">0</span>/<span id="d-em">100</span> EXP</span></div>
         <div class="exp-bar"><div class="exp-fill" id="d-ef" style="width:0%"></div></div>
         <div class="stats">
@@ -409,7 +304,7 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
     <div class="q-grid">
       <div class="q-btn" onclick="goTab('quest',document.querySelectorAll('.nav-tab')[1])"><span class="q-ic">📋</span>Daily Quest<div class="q-rw">+30~130 EXP</div></div>
       <div class="q-btn" onclick="goTab('quiz',document.querySelectorAll('.nav-tab')[2])"><span class="q-ic">🧪</span>Daily Quiz<div class="q-rw">+50 EXP/ข้อ</div></div>
-      <div class="q-btn" onclick="goTab('game',document.querySelectorAll('.nav-tab')[4])"><span class="q-ic">🎮</span>Mini Game<div class="q-rw">+EXP ตามคะแนน</div></div>
+      <div class="q-btn" onclick="goTab('homework',document.querySelectorAll('.nav-tab')[3])"><span class="q-ic">📚</span>การบ้าน<div class="q-rw">ดูสถานะงาน</div></div>
     </div>
     <div class="sec">🔓 Privilege ของคุณ</div>
     <div class="priv-card" id="priv-list"></div>
@@ -445,6 +340,15 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
     </div>
   </div>
 
+  <!-- Homework (งาน/การบ้าน จากครู) -->
+  <div id="tab-homework" class="tab">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="sec" style="margin:0">📚 งาน / การบ้าน</div>
+      <button class="btn-p" onclick="loadHomework()" style="font-size:11px;padding:5px 12px">🔄 รีโหลด</button>
+    </div>
+    <div id="hw-list"><div style="text-align:center;padding:24px;color:var(--text2);font-size:12px">⏳ กำลังโหลด...</div></div>
+  </div>
+
   <!-- Shop -->
   <div id="tab-shop" class="tab">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -460,7 +364,7 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
     <div class="sh-grid" id="sh-grid"></div>
   </div>
 
-  <!-- Mini Game -->
+  <!-- Game -->
   <div id="tab-game" class="tab">
     <div class="sec">🎮 Element Matching — จับคู่ธาตุ</div>
     <div class="gm-wrap">
@@ -471,14 +375,8 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
       </div>
       <div class="gm-msg" id="g-msg">กดปุ่มเริ่มเกมเพื่อเล่น</div>
       <div class="match-area" id="g-area" style="display:none">
-        <div class="match-col">
-          <div class="match-col-h">ชื่อธาตุ</div>
-          <div id="g-left"></div>
-        </div>
-        <div class="match-col">
-          <div class="match-col-h">สัญลักษณ์</div>
-          <div id="g-right"></div>
-        </div>
+        <div class="match-col"><div class="match-col-h">ชื่อธาตุ</div><div id="g-left"></div></div>
+        <div class="match-col"><div class="match-col-h">สัญลักษณ์</div><div id="g-right"></div></div>
       </div>
       <div id="g-res" style="display:none;text-align:center;padding:18px 0"></div>
       <button class="btn-p" id="g-btn" onclick="startGame()" style="width:100%;margin-top:12px">▶ เริ่มเกม</button>
@@ -498,313 +396,312 @@ const VALID_ROOMS  = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216
 <div id="modal-ct"></div>
 
 <script>
-// ─── Supabase Init ───────────────────────────────────────────
+// ─── Supabase Init ────────────────────────────────────────────
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ─── Static Data ─────────────────────────────────────────────
 const RANKS = [
-  {name:'Bronze I',  icon:'🥉', minLv:1},
-  {name:'Bronze II', icon:'🥉', minLv:3},
-  {name:'Silver I',  icon:'🥈', minLv:5},
-  {name:'Silver II', icon:'🥈', minLv:8},
-  {name:'Gold I',    icon:'🥇', minLv:11},
-  {name:'Diamond',   icon:'💎', minLv:16},
-  {name:'Legend',    icon:'👑', minLv:21},
+  {name:'Bronze I', icon:'🥉',minLv:1},  {name:'Bronze II',icon:'🥉',minLv:3},
+  {name:'Silver I', icon:'🥈',minLv:5},  {name:'Silver II',icon:'🥈',minLv:8},
+  {name:'Gold I',   icon:'🥇',minLv:11}, {name:'Diamond',  icon:'💎',minLv:16},
+  {name:'Legend',   icon:'👑',minLv:21},
 ];
 const CLS = {
-  alchemist:{emoji:'🧙', name:'Alchemist'},
-  scientist:{emoji:'🔬', name:'Scientist'},
-  explorer: {emoji:'🗺️', name:'Explorer'},
+  alchemist:{emoji:'🧙',name:'Alchemist'},
+  scientist:{emoji:'🔬',name:'Scientist'},
+  explorer: {emoji:'🗺️',name:'Explorer'},
 };
 const QUESTS = [
-  {text:'ส่งการบ้านวันนี้ให้ครูบุ๊ค',         exp:30, coins:10},
-  {text:'ถามคำถามในห้องเรียน 1 ครั้ง',         exp:20, coins:5},
-  {text:'ช่วยเพื่อนแก้โจทย์เคมี 1 ข้อ',       exp:40, coins:15},
-  {text:'อ่านบทเรียนก่อนเข้าห้อง',             exp:25, coins:8},
-  {text:'เขียน note สรุปเนื้อหาวันนี้',        exp:15, coins:5},
+  {text:'ส่งการบ้านวันนี้ให้ครูบุ๊ค',        exp:30,coins:10},
+  {text:'ถามคำถามในห้องเรียน 1 ครั้ง',        exp:20,coins:5},
+  {text:'ช่วยเพื่อนแก้โจทย์เคมี 1 ข้อ',      exp:40,coins:15},
+  {text:'อ่านบทเรียนก่อนเข้าห้อง',            exp:25,coins:8},
+  {text:'เขียน note สรุปเนื้อหาวันนี้',       exp:15,coins:5},
 ];
 const WEEKLY = [
-  {text:'ทำ Quiz ครบทุกวัน 5 วัน',            exp:200, coins:50},
-  {text:'เล่นเกม Element Matching ทำคะแนน >80',exp:150, coins:40},
-  {text:'ทำ Daily Quest ครบทุกข้อ 3 วัน',      exp:180, coins:45},
+  {text:'ทำ Quiz ครบทุกวัน 5 วัน',           exp:200,coins:50},
+  {text:'เล่นเกม Element Matching คะแนน >80', exp:150,coins:40},
+  {text:'ทำ Daily Quest ครบทุกข้อ 3 วัน',    exp:180,coins:45},
 ];
 const QUIZZES = [
-  {q:'ธาตุใดมีสัญลักษณ์ทางเคมีว่า "Au"?',             opts:['ทองแดง','ทอง','เงิน','อาร์กอน'],       a:1,ex:'Au มาจากภาษาละติน Aurum = ทอง'},
-  {q:'อะตอมของคาร์บอน (C) มีเลขอะตอมเท่าไร?',          opts:['4','6','8','12'],                      a:1,ex:'คาร์บอนมีโปรตอน 6 ตัว เลขอะตอม = 6'},
-  {q:'สูตรทางเคมีของน้ำคืออะไร?',                      opts:['H₂O₂','CO₂','H₂O','NaCl'],            a:2,ex:'น้ำ = H₂O มี H 2 อะตอม + O 1 อะตอม'},
-  {q:'Noble Gas ข้อใดมีมากสุดในบรรยากาศโลก?',           opts:['He','Ne','Ar','Kr'],                   a:2,ex:'อาร์กอน ~0.93% มากสุดในกลุ่ม Noble Gas'},
-  {q:'pH ของสารที่เป็นกลางเท่าใด?',                    opts:['0','7','14','3'],                      a:1,ex:'pH 7 = กลาง, pH < 7 = กรด, pH > 7 = เบส'},
-  {q:'พันธะโคเวเลนต์คืออะไร?',                         opts:['ถ่ายโอนอิเล็กตรอน','ใช้อิเล็กตรอนร่วมกัน','แรงดึงดูดของโลหะ','แรงแวนเดอร์วาลส์'], a:1,ex:'โคเวเลนต์ = 2 อะตอมใช้อิเล็กตรอนร่วมกัน'},
-  {q:'โซเดียม (Na) อยู่ในหมู่ที่เท่าไรของตารางธาตุ?',   opts:['หมู่ 2','หมู่ 1','หมู่ 7','หมู่ 17'],  a:1,ex:'Na อยู่หมู่ 1 Alkali Metals มีเวเลนซ์ e⁻ = 1'},
-  {q:'NaCl ละลายน้ำได้ไอออนอะไร?',                     opts:['Na⁺ และ Cl⁻','Na⁻ และ Cl⁺','Na และ Cl','NaCl เท่านั้น'], a:0,ex:'NaCl → Na⁺ + Cl⁻ เมื่อละลายน้ำ'},
-  {q:'CH₄ มีรูปร่างโมเลกุลแบบใด?',                     opts:['เส้นตรง','V-shape','Tetrahedral','Trigonal planar'], a:2,ex:'C ตรงกลาง + H 4 ตัว = Tetrahedral'},
-  {q:'ปฏิกิริยา 2H₂O → 2H₂ + O₂ เป็นประเภทใด?',       opts:['การรวมตัว','การสลายตัว','การแทนที่','การสะเทิน'], a:1,ex:'สารหนึ่งแตกออกเป็นหลายสาร = Decomposition'},
+  {q:'ธาตุใดมีสัญลักษณ์ทางเคมีว่า "Au"?',            opts:['ทองแดง','ทอง','เงิน','อาร์กอน'],                                                          a:1,ex:'Au มาจากภาษาละติน Aurum = ทอง'},
+  {q:'อะตอมของคาร์บอน (C) มีเลขอะตอมเท่าไร?',         opts:['4','6','8','12'],                                                                          a:1,ex:'คาร์บอนมีโปรตอน 6 ตัว เลขอะตอม = 6'},
+  {q:'สูตรทางเคมีของน้ำคืออะไร?',                     opts:['H₂O₂','CO₂','H₂O','NaCl'],                                                                 a:2,ex:'น้ำ = H₂O มี H 2 อะตอม + O 1 อะตอม'},
+  {q:'Noble Gas ข้อใดมีมากสุดในบรรยากาศโลก?',          opts:['He','Ne','Ar','Kr'],                                                                       a:2,ex:'อาร์กอน ~0.93% มากสุดในกลุ่ม Noble Gas'},
+  {q:'pH ของสารที่เป็นกลางเท่าใด?',                   opts:['0','7','14','3'],                                                                           a:1,ex:'pH 7 = กลาง, pH < 7 = กรด, pH > 7 = เบส'},
+  {q:'พันธะโคเวเลนต์คืออะไร?',                        opts:['ถ่ายโอนอิเล็กตรอน','ใช้อิเล็กตรอนร่วมกัน','แรงดึงดูดของโลหะ','แรงแวนเดอร์วาลส์'],       a:1,ex:'โคเวเลนต์ = 2 อะตอมใช้อิเล็กตรอนร่วมกัน'},
+  {q:'โซเดียม (Na) อยู่ในหมู่ที่เท่าไรของตารางธาตุ?',  opts:['หมู่ 2','หมู่ 1','หมู่ 7','หมู่ 17'],                                                      a:1,ex:'Na อยู่หมู่ 1 Alkali Metals มีเวเลนซ์ e⁻ = 1'},
+  {q:'NaCl ละลายน้ำได้ไอออนอะไร?',                    opts:['Na⁺ และ Cl⁻','Na⁻ และ Cl⁺','Na และ Cl','NaCl เท่านั้น'],                                  a:0,ex:'NaCl → Na⁺ + Cl⁻ เมื่อละลายน้ำ'},
+  {q:'CH₄ มีรูปร่างโมเลกุลแบบใด?',                    opts:['เส้นตรง','V-shape','Tetrahedral','Trigonal planar'],                                       a:2,ex:'C ตรงกลาง + H 4 ตัว = Tetrahedral'},
+  {q:'ปฏิกิริยา 2H₂O → 2H₂ + O₂ เป็นประเภทใด?',      opts:['การรวมตัว','การสลายตัว','การแทนที่','การสะเทิน'],                                         a:1,ex:'สารหนึ่งแตกออกเป็นหลายสาร = Decomposition'},
 ];
 const ELEMENTS = [
-  {n:'ไฮโดรเจน',s:'H', z:1},  {n:'ออกซิเจน', s:'O',  z:8},
-  {n:'คาร์บอน',  s:'C', z:6},  {n:'โซเดียม',  s:'Na', z:11},
-  {n:'คลอรีน',   s:'Cl',z:17}, {n:'เหล็ก',    s:'Fe', z:26},
-  {n:'ทอง',      s:'Au',z:79}, {n:'ฮีเลียม',  s:'He', z:2},
-  {n:'แคลเซียม', s:'Ca',z:20}, {n:'ไนโตรเจน', s:'N',  z:7},
-  {n:'กำมะถัน',  s:'S', z:16}, {n:'ฟอสฟอรัส', s:'P',  z:15},
+  {n:'ไฮโดรเจน',s:'H', z:1},{n:'ออกซิเจน', s:'O', z:8},
+  {n:'คาร์บอน', s:'C', z:6},{n:'โซเดียม',  s:'Na',z:11},
+  {n:'คลอรีน',  s:'Cl',z:17},{n:'เหล็ก',   s:'Fe',z:26},
+  {n:'ทอง',     s:'Au',z:79},{n:'ฮีเลียม', s:'He',z:2},
+  {n:'แคลเซียม',s:'Ca',z:20},{n:'ไนโตรเจน',s:'N', z:7},
+  {n:'กำมะถัน', s:'S', z:16},{n:'ฟอสฟอรัส',s:'P', z:15},
 ];
 const SHOP = [
-  {id:'hat',   em:'🎩',nm:'หมวกนักวิทย์',     pr:50,  tp:'cosmetic',  mr:0},
-  {id:'lab',   em:'🥼',nm:'เสื้อกาวน์',        pr:80,  tp:'cosmetic',  mr:0},
-  {id:'gogg',  em:'🥽',nm:'แว่นนิรภัย',        pr:60,  tp:'cosmetic',  mr:0},
-  {id:'scope', em:'🔭',nm:'กล้องโทรทรรศน์',   pr:70,  tp:'cosmetic',  mr:0},
-  {id:'potion',em:'🧪',nm:'EXP Potion ×2',    pr:100, tp:'boost',     mr:0},
-  {id:'boost2',em:'⚡',nm:'Gold Boost ×2',      pr:120, tp:'boost',     mr:2},
-  {id:'late',  em:'📝',nm:'ขอส่งงานช้า +1วัน', pr:120, tp:'privilege', mr:0},
-  {id:'seat',  em:'🪑',nm:'เลือกที่นั่งอิสระ', pr:200, tp:'privilege', mr:2},
-  {id:'skip',  em:'📖',nm:'ข้ามการบ้าน 1ครั้ง',pr:300, tp:'privilege', mr:3},
-  {id:'bonus', em:'⭐',nm:'คะแนนโบนัส +5%',     pr:500, tp:'privilege', mr:4},
+  {id:'hat',   em:'🎩',nm:'หมวกนักวิทย์',     pr:50, tp:'cosmetic', mr:0},
+  {id:'lab',   em:'🥼',nm:'เสื้อกาวน์',        pr:80, tp:'cosmetic', mr:0},
+  {id:'gogg',  em:'🥽',nm:'แว่นนิรภัย',        pr:60, tp:'cosmetic', mr:0},
+  {id:'scope', em:'🔭',nm:'กล้องโทรทรรศน์',   pr:70, tp:'cosmetic', mr:0},
+  {id:'potion',em:'🧪',nm:'EXP Potion ×2',    pr:100,tp:'boost',    mr:0},
+  {id:'boost2',em:'⚡',nm:'Gold Boost ×2',      pr:120,tp:'boost',    mr:2},
+  {id:'late',  em:'📝',nm:'ขอส่งงานช้า +1วัน', pr:120,tp:'privilege',mr:0},
+  {id:'seat',  em:'🪑',nm:'เลือกที่นั่งอิสระ', pr:200,tp:'privilege',mr:2},
+  {id:'skip',  em:'📖',nm:'ข้ามการบ้าน 1ครั้ง',pr:300,tp:'privilege',mr:3},
+  {id:'bonus', em:'⭐',nm:'คะแนนโบนัส +5%',     pr:500,tp:'privilege',mr:4},
 ];
 const PRIVS = [
-  {ic:'📝',tx:'ขอยืมเวลาส่งงาน +1 วัน',   mr:0},
-  {ic:'💬',tx:'ถามคำถามพิเศษได้ 3 ข้อ',   mr:1},
-  {ic:'🪑',tx:'เลือกที่นั่งในห้องได้อิสระ',mr:2},
+  {ic:'📝',tx:'ขอยืมเวลาส่งงาน +1 วัน',    mr:0},
+  {ic:'💬',tx:'ถามคำถามพิเศษได้ 3 ข้อ',    mr:1},
+  {ic:'🪑',tx:'เลือกที่นั่งในห้องได้อิสระ', mr:2},
   {ic:'🎯',tx:'ข้ามการบ้าน 1 ครั้ง/เดือน', mr:3},
-  {ic:'⭐',tx:'คะแนนสอบโบนัส +5%',         mr:4},
+  {ic:'⭐',tx:'คะแนนสอบโบนัส +5%',          mr:4},
   {ic:'👑',tx:'ตั้งชื่อโจทย์ Quiz ของครู',  mr:6},
 ];
 
-// ─── State Object ─────────────────────────────────────────────
+// ─── State ────────────────────────────────────────────────────
+// ✅ ใช้ชื่อตรงกับ SQL ทุก field
 const S = {
-  sid:'', name:'', room:'', num:1, cls:'alchemist',
-  lv:1, exp:0, expMax:100, coins:0,
-  streak:1, questDone:0, quizCorrect:0,
+  student_id:'', name:'', room:'', number:'',
+  class_type:'alchemist',
+  level:1, exp:0, exp_max:100, coins:0,
+  rank_name:'Bronze I', streak:1,
+  quiz_correct:0, quiz_finished:false, quizScore:0,
+  quest_done:0,
   quests:[false,false,false,false,false],
-  items:[],
-  quizIdx:0, quizFinished:false, quizScore:0,
+  items:[], quests_today:[],
   rankNum:'-', dirty:false,
   gRunning:false, gTimer:60, gScore:0, gPairs:0,
   gTimerInt:null, gSelL:null, gSelR:null, gMatchSet:new Set(),
 };
-let shopFilter = 'all';
+let shopFilter='all', quizOrder=[];
 
 // ─── Helpers ──────────────────────────────────────────────────
-const getRankIdx = () => { let i=0; for(let j=0;j<RANKS.length;j++) if(S.lv>=RANKS[j].minLv) i=j; return i; };
+const getRankIdx = () => { let i=0; for(let j=0;j<RANKS.length;j++) if(S.level>=RANKS[j].minLv) i=j; return i; };
 const getRank    = () => RANKS[getRankIdx()];
-const expMaxAt   = lv => { let m=100; for(let i=1;i<lv;i++) m=Math.round(m*1.3); return m; };
-const expBonus   = b  => S.cls==='alchemist' ? Math.round(b*1.3) : b;
-const goldBonus  = b  => S.cls==='scientist' ? Math.round(b*1.5) : b;
+const getRankByLv= lv=>{ let r=RANKS[0]; for(const k of RANKS) if(lv>=k.minLv) r=k; return r; };
+const expMaxAt   = lv=>{ let m=100; for(let i=1;i<lv;i++) m=Math.round(m*1.3); return m; };
+const expBonus   = b => S.class_type==='alchemist' ? Math.round(b*1.3) : b;
+const goldBonus  = b => S.class_type==='scientist' ? Math.round(b*1.5) : b;
+const clsE       = c => ({alchemist:'🧙',scientist:'🔬',explorer:'🗺️'}[c]||'🧙');
 
-function toast(msg) {
+function toast(msg){
   document.querySelectorAll('.toast').forEach(t=>t.remove());
-  const t = document.createElement('div');
-  t.className='toast'; t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 2400);
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t); setTimeout(()=>t.remove(),2400);
 }
-
-function showModal(ic,title,desc,btnTxt,cb) {
-  const ct = document.getElementById('modal-ct');
-  ct.innerHTML = `<div class="modal-bg" id="modal-bg">
+function showModal(ic,title,desc,btnTxt,cb){
+  const ct=document.getElementById('modal-ct');
+  ct.innerHTML=`<div class="modal-bg" id="modal-bg">
     <div class="modal-box">
       <span class="modal-ic">${ic}</span>
       <div class="modal-t">${title}</div>
       <div class="modal-d">${desc}</div>
       <button class="btn-gold" id="modal-ok">${btnTxt||'เยี่ยม!'}</button>
     </div></div>`;
-  document.getElementById('modal-ok').onclick = () => {
-    document.getElementById('modal-bg').remove();
-    if(cb) cb();
-  };
+  document.getElementById('modal-ok').onclick=()=>{document.getElementById('modal-bg').remove();if(cb)cb();};
 }
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
-    s.style.display = '';
-  });
-  const el = document.getElementById(id);
-  el.classList.add('active');
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='';});
+  document.getElementById(id).classList.add('active');
 }
-
-// ─── Nav Tab Switching ────────────────────────────────────────
-function goTab(tabId, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-  const targetTab = document.getElementById('tab-' + tabId);
-  if(targetTab) targetTab.classList.add('active');
+function goTab(tabId,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  const t=document.getElementById('tab-'+tabId);
+  if(t) t.classList.add('active');
   if(btn) btn.classList.add('active');
-  if(tabId === 'rank')  loadLB();
-  if(tabId === 'shop')  renderShop();
-  if(tabId === 'quiz')  initQuiz();
-  if(tabId === 'quest') renderQuests();
+  if(tabId==='rank')     loadLB();
+  if(tabId==='shop')     renderShop();
+  if(tabId==='quiz')     initQuiz();
+  if(tabId==='quest')    renderQuests();
+  if(tabId==='homework') loadHomework();
+}
+function selCls(clsId,card){
+  document.querySelectorAll('.cls-card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel'); S.class_type=clsId;
 }
 
-// ─── Class Selection ──────────────────────────────────────────
-function selCls(clsId, card) {
-  document.querySelectorAll('.cls-card').forEach(c => c.classList.remove('sel'));
-  card.classList.add('sel');
-  S.cls = clsId;
+// ─── Connection Check ─────────────────────────────────────────
+async function checkConn(){
+  const dot=document.getElementById('conn-dot'), txt=document.getElementById('conn-txt');
+  try{
+    const{error}=await db.from('players').select('id').limit(1);
+    if(error){dot.className='conn-dot';txt.textContent='เชื่อมต่อไม่ได้ — ตรวจ URL/Key';}
+    else{dot.className='conn-dot ok';txt.textContent='เชื่อมต่อ Supabase สำเร็จ ✅';}
+  }catch(e){dot.className='conn-dot';txt.textContent='เกิดข้อผิดพลาด: '+e.message;}
 }
 
-// ─── Supabase Connection Check ────────────────────────────────
-async function checkConn() {
-  const dot = document.getElementById('conn-dot');
-  const txt = document.getElementById('conn-txt');
-  try {
-    const { error } = await db.from('players').select('id').limit(1);
-    if(error) { dot.className='conn-dot'; txt.textContent='เชื่อมต่อไม่ได้ — ตรวจ URL/Key'; }
-    else       { dot.className='conn-dot ok'; txt.textContent='เชื่อมต่อ Supabase สำเร็จ ✅'; }
-  } catch(e) {
-    dot.className='conn-dot'; txt.textContent='เกิดข้อผิดพลาด: ' + e.message;
-  }
-}
+// ─── Login / Start ────────────────────────────────────────────
+// ✅ แก้ไข: ใช้ student_id = room + '-' + number ตรงกับ SQL
+async function doStart(){
+  const nameVal=document.getElementById('i-name').value.trim();
+  const roomVal=document.getElementById('i-room').value.trim().toUpperCase();
+  const numVal =document.getElementById('i-num').value.trim();
+  const err    =document.getElementById('err-msg');
 
-// ─── Start / Login ────────────────────────────────────────────
-async function doStart() {
-  const nameInp = document.getElementById('i-name').value.trim();
-  const roomInp = document.getElementById('i-room').value.trim().toUpperCase();
-  const numInp  = parseInt(document.getElementById('i-num').value.trim());
-  const errMsg  = document.getElementById('err-msg');
+  if(!nameVal||!roomVal||!numVal){err.textContent='❌ กรุณากรอกข้อมูลให้ครบถ้วน';return;}
+  if(!VALID_ROOMS.includes(roomVal)){err.textContent='❌ ไม่พบรหัสห้องเรียนนี้ในระบบ';return;}
+  if(+numVal<1||+numVal>50){err.textContent='❌ เลขที่ต้องอยู่ระหว่าง 1-50';return;}
 
-  if(!nameInp || !roomInp || !numInp) {
-    errMsg.textContent = '❌ กรุณากรอกข้อมูลให้ครบถ้วน'; return;
-  }
-  if(!VALID_ROOMS.includes(roomInp)) {
-    errMsg.textContent = '❌ ไม่พบรหัสห้องเรียนนี้ในระบบ'; return;
-  }
+  const sid=`${roomVal}-${String(numVal).padStart(2,'0')}`;
+  document.getElementById('btn-start').disabled=true;
+  err.textContent='⏳ กำลังเข้าสู่ระบบ...';
 
-  document.getElementById('btn-start').disabled = true;
-  errMsg.textContent = '⏳ กำลังเข้าสู่ระบบ...';
-
-  try {
-    let { data: player, error } = await db.from('players')
-      .select('*').eq('room', roomInp).eq('num', numInp).maybeSingle();
+  try{
+    // ✅ ค้นหาด้วย student_id ตรงกับ SQL UNIQUE constraint
+    const{data:player,error}=await db.from('players').select('*').eq('student_id',sid).maybeSingle();
     if(error) throw error;
 
-    if(player) {
-      // โหลดข้อมูลเดิม
-      S.sid = player.id; S.name = player.name; S.room = player.room;
-      S.num  = player.num || numInp;
-      S.cls  = player.cls || 'alchemist';
-      S.lv   = player.lv  || 1;
-      S.exp  = player.exp || 0;
-      S.coins= player.coins || 0;
-      S.streak     = player.streak      || 1;
-      S.questDone  = player.quest_done  || 0;
-      S.quizCorrect= player.quiz_correct|| 0;
-      S.items = player.items ? (typeof player.items === 'string' ? JSON.parse(player.items) : player.items) : [];
-      toast('✨ ยินดีต้อนรับกลับมา ' + S.name + '!');
+    if(player){
+      // โหลดข้อมูลเดิม — ✅ ใช้ชื่อ field ตรงกับ SQL
+      S.student_id  = player.student_id;
+      S.name        = player.name;
+      S.room        = player.room;
+      S.number      = player.number;
+      S.class_type  = player.class_type  || 'alchemist';
+      S.level       = player.level       || 1;
+      S.exp         = player.exp         || 0;
+      S.exp_max     = player.exp_max     || expMaxAt(S.level);
+      S.coins       = player.coins       || 0;
+      S.rank_name   = player.rank_name   || 'Bronze I';
+      S.streak      = player.streak      || 1;
+      S.quiz_correct= player.quiz_correct|| 0;
+      S.quiz_finished=player.quiz_finished||false;
+      S.quest_done  = player.quest_done  || 0;
+      S.items       = player.items       ? player.items.split(',').filter(Boolean) : [];
+      // restore quests_today
+      const qt=player.quests_today||'';
+      S.quests=[0,1,2,3,4].map(i=>qt.split(',').includes(String(i)));
+      toast('✨ ยินดีต้อนรับกลับมา '+S.name+'!');
     } else {
-      // สร้างนักเรียนใหม่
-      const pId = 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,4);
-      const { error: insErr } = await db.from('players').insert([{
-        id:pId, name:nameInp, room:roomInp, num:numInp, cls:S.cls,
-        lv:1, exp:0, coins:0, streak:1, quest_done:0, quiz_correct:0, items:'[]'
+      // ✅ สร้างนักเรียนใหม่ด้วย field ตรงกับ SQL
+      const{error:insErr}=await db.from('players').insert([{
+        student_id: sid,
+        name:       nameVal,
+        room:       roomVal,
+        number:     String(numVal).padStart(2,'0'),
+        class_type: S.class_type,
+        level:1, exp:0, exp_max:100, coins:0,
+        rank_name:'Bronze I', streak:1,
+        quiz_correct:0, quiz_finished:false, quest_done:0,
+        items:'', quests_today:'',
       }]);
       if(insErr) throw insErr;
-      S.sid = pId; S.name = nameInp; S.room = roomInp; S.num = numInp;
+      S.student_id=sid; S.name=nameVal; S.room=roomVal;
+      S.number=String(numVal).padStart(2,'0');
       toast('🎉 ลงทะเบียนสำเร็จ! ยินดีต้อนรับสู่ห้องเรียนเคมี');
     }
-
-    updateDashboardUI();
+    updateUI();
     showScreen('screen-main');
-  } catch(e) {
+  }catch(e){
     console.error(e);
-    errMsg.textContent = 'เกิดข้อผิดพลาด: ' + e.message;
-    document.getElementById('btn-start').disabled = false;
+    err.textContent='เกิดข้อผิดพลาด: '+e.message;
+    document.getElementById('btn-start').disabled=false;
   }
 }
 
-// ─── Save to Supabase ─────────────────────────────────────────
-async function savePlayer() {
-  if(!S.sid) { toast('❌ ยังไม่ได้ล็อกอิน'); return; }
-  const btn = document.getElementById('btn-save');
-  btn.disabled = true; btn.textContent = '⏳';
-  try {
-    const { error } = await db.from('players').upsert({
-      id: S.sid, name: S.name, room: S.room, num: S.num, cls: S.cls,
-      lv: S.lv, exp: S.exp, coins: S.coins,
-      streak: S.streak, quest_done: S.questDone, quiz_correct: S.quizCorrect,
-      items: JSON.stringify(S.items),
-      updated_at: new Date().toISOString()
-    });
+// ─── Save ─────────────────────────────────────────────────────
+// ✅ บันทึกด้วย field names ตรงกับ SQL ทุก column
+async function savePlayer(){
+  if(!S.student_id){toast('❌ ยังไม่ได้ล็อกอิน');return;}
+  const btn=document.getElementById('btn-save');
+  btn.disabled=true; btn.textContent='⏳';
+  try{
+    const questsTodayStr=S.quests.map((v,i)=>v?i:-1).filter(i=>i>=0).join(',');
+    const{error}=await db.from('players').upsert({
+      student_id:   S.student_id,
+      name:         S.name,
+      room:         S.room,
+      number:       S.number,
+      class_type:   S.class_type,
+      level:        S.level,
+      exp:          S.exp,
+      exp_max:      S.exp_max,
+      coins:        S.coins,
+      rank_name:    getRank().name,
+      streak:       S.streak,
+      quiz_correct: S.quiz_correct,
+      quiz_finished:S.quiz_finished,
+      quest_done:   S.quest_done,
+      items:        S.items.join(','),
+      quests_today: questsTodayStr,
+      last_login:   new Date().toISOString(),
+      updated_at:   new Date().toISOString(),
+    },{onConflict:'student_id'});
     if(error) throw error;
-    toast('💾 บันทึกสำเร็จ!');
-    S.dirty = false;
-  } catch(e) {
-    toast('❌ บันทึกไม่สำเร็จ: ' + e.message);
-  } finally {
-    btn.disabled = false; btn.textContent = '💾 บันทึก';
+    toast('💾 บันทึกสำเร็จ!'); S.dirty=false;
+  }catch(e){
+    toast('❌ บันทึกไม่สำเร็จ: '+e.message);
+  }finally{
+    btn.disabled=false; btn.textContent='💾 บันทึก';
   }
 }
 
-// ─── Level & EXP ─────────────────────────────────────────────
-function addExp(amount) {
-  S.exp += expBonus(amount);
-  checkLvUp();
-  updateDashboardUI();
-  S.dirty = true;
+// ─── EXP / Level ─────────────────────────────────────────────
+function addExp(amount){
+  S.exp+=expBonus(amount); checkLvUp(); updateUI(); S.dirty=true;
 }
-function addCoins(amount) {
-  S.coins += goldBonus(amount);
-  updateDashboardUI();
-  S.dirty = true;
+function addCoins(amount){
+  S.coins+=goldBonus(amount); updateUI(); S.dirty=true;
 }
-function checkLvUp() {
-  S.expMax = expMaxAt(S.lv);
-  while(S.exp >= S.expMax) {
-    S.exp -= S.expMax; S.lv++;
-    S.expMax = expMaxAt(S.lv);
-    const rk = getRank();
-    showModal('🎉','LEVEL UP!',
-      `ยินดีด้วย! เลเวลอัปเป็น Lv.${S.lv} แล้ว!\n${rk.icon} ${rk.name}`,
-      'สุดยอด! 💪');
+function checkLvUp(){
+  S.exp_max=expMaxAt(S.level);
+  while(S.exp>=S.exp_max){
+    S.exp-=S.exp_max; S.level++;
+    S.exp_max=expMaxAt(S.level);
+    const rk=getRank();
+    showModal('🎉','LEVEL UP!',`ยินดีด้วย! เลเวลอัปเป็น Lv.${S.level}\n${rk.icon} ${rk.name}`,'สุดยอด! 💪');
   }
 }
 
-// ─── Update UI ────────────────────────────────────────────────
-function updateDashboardUI() {
-  const cls = CLS[S.cls] || CLS.alchemist;
-  document.getElementById('d-name').textContent = S.name;
-  document.getElementById('nav-title').textContent = S.name;
-  document.getElementById('d-cls').textContent  = cls.name + ' ' + cls.emoji;
-  document.getElementById('d-av').textContent   = cls.emoji;
-  document.getElementById('d-lv').textContent   = S.lv;
-  document.getElementById('d-exp').textContent  = S.exp;
-  S.expMax = expMaxAt(S.lv);
-  document.getElementById('d-em').textContent   = S.expMax;
-  const pct = Math.min(100, (S.exp / S.expMax) * 100);
-  document.getElementById('d-ef').style.width   = pct + '%';
-  document.getElementById('nav-coins').textContent = S.coins;
-  document.getElementById('sh-coins').textContent  = S.coins;
-  document.getElementById('d-str').textContent  = S.streak;
-  document.getElementById('d-qc').textContent   = S.questDone;
-  document.getElementById('d-qz').textContent   = S.quizCorrect;
-  const rk = getRank();
-  document.getElementById('d-rk').textContent   = rk.icon + ' ' + rk.name;
-  renderRankTrack();
-  renderPrivileges();
-  renderQuests();
+// ─── UI Update ───────────────────────────────────────────────
+function updateUI(){
+  const cls=CLS[S.class_type]||CLS.alchemist;
+  const rk=getRank();
+  document.getElementById('d-name').textContent=S.name;
+  document.getElementById('nav-title').textContent=S.name;
+  document.getElementById('d-cls').textContent=cls.name+' '+cls.emoji;
+  document.getElementById('d-av').textContent=cls.emoji;
+  document.getElementById('d-lv').textContent=S.level;
+  document.getElementById('d-exp').textContent=S.exp;
+  S.exp_max=expMaxAt(S.level);
+  document.getElementById('d-em').textContent=S.exp_max;
+  document.getElementById('d-ef').style.width=Math.min(100,(S.exp/S.exp_max)*100)+'%';
+  document.getElementById('nav-coins').textContent=S.coins;
+  document.getElementById('sh-coins').textContent=S.coins;
+  document.getElementById('d-str').textContent=S.streak;
+  document.getElementById('d-qc').textContent=S.quest_done;
+  document.getElementById('d-qz').textContent=S.quiz_correct;
+  document.getElementById('d-rk').textContent=rk.icon+' '+rk.name;
+  renderRankTrack(); renderPrivileges(); renderQuests();
 }
 
-// ─── Rank Track ───────────────────────────────────────────────
-function renderRankTrack() {
-  const track = document.getElementById('rk-track'); if(!track) return;
-  const curIdx = getRankIdx(); let html = '';
-  RANKS.forEach((rk,idx) => {
-    const isCur = idx===curIdx, isLock = idx>curIdx;
-    html += `<div class="rk-node">
+function renderRankTrack(){
+  const track=document.getElementById('rk-track'); if(!track) return;
+  const curIdx=getRankIdx(); let html='';
+  RANKS.forEach((rk,idx)=>{
+    const isCur=idx===curIdx, isLock=idx>curIdx;
+    html+=`<div class="rk-node">
       <div class="rk-icon ${isCur?'cur':''} ${isLock?'lk':''}">${rk.icon}</div>
       <div class="rk-lbl ${isCur?'cur':''}">${rk.name}<br>Lv.${rk.minLv}</div>
     </div>`;
-    if(idx < RANKS.length-1) html += `<div class="rk-conn ${idx<curIdx?'done':''}"></div>`;
+    if(idx<RANKS.length-1) html+=`<div class="rk-conn ${idx<curIdx?'done':''}"></div>`;
   });
-  track.innerHTML = html;
+  track.innerHTML=html;
 }
 
-// ─── Privileges ───────────────────────────────────────────────
-function renderPrivileges() {
-  const div = document.getElementById('priv-list'); if(!div) return;
-  div.innerHTML = PRIVS.map(p => {
-    const ok = S.lv >= p.mr;
-    return `<div class="pr-row ${ok?'':'lk'}">
+function renderPrivileges(){
+  const div=document.getElementById('priv-list'); if(!div) return;
+  div.innerHTML=PRIVS.map(p=>{
+    const ok=S.level>=p.mr;
+    return`<div class="pr-row ${ok?'':'lk'}">
       <span class="pr-ic">${p.ic}</span>
       <div class="pr-tx">${p.tx} <span style="color:var(--text2);font-size:10px">(Lv.${p.mr})</span></div>
       <span class="pr-st ${ok?'ok':'no'}">${ok?'✅ เปิดใช้':'🔒 ล็อก'}</span>
@@ -813,148 +710,159 @@ function renderPrivileges() {
 }
 
 // ─── Quests ───────────────────────────────────────────────────
-function renderQuests() {
-  const div = document.getElementById('quest-list'); if(!div) return;
-  div.innerHTML = QUESTS.map((q,idx) => {
-    const done = S.quests[idx];
-    return `<div class="qr-row">
+function renderQuests(){
+  const div=document.getElementById('quest-list'); if(!div) return;
+  div.innerHTML=QUESTS.map((q,idx)=>{
+    const done=S.quests[idx];
+    return`<div class="qr-row">
       <div class="qr-chk ${done?'done':''}" onclick="${done?'':'toggleQuest('+idx+')'}">${done?'✓':''}</div>
       <div class="qr-tx ${done?'done':''}">${q.text}</div>
       <div class="qr-rw">💎 +${q.exp} EXP / 🪙 +${q.coins}</div>
     </div>`;
   }).join('');
-
-  const wk = document.getElementById('wk-list'); if(!wk) return;
-  wk.innerHTML = WEEKLY.map((w,idx) => `
+  const wk=document.getElementById('wk-list'); if(!wk) return;
+  wk.innerHTML=WEEKLY.map(w=>`
     <div class="wk-row">
       <span style="font-size:18px">🌟</span>
       <div style="flex:1;font-size:11px;line-height:1.5">${w.text}</div>
-      <div style="font-size:10px;color:var(--gold);font-weight:700;white-space:nowrap">💎 +${w.exp} EXP<br>🪙 +${w.coins}</div>
-    </div>
-  `).join('');
+      <div style="font-size:10px;color:var(--gold);font-weight:700;white-space:nowrap">💎 +${w.exp}<br>🪙 +${w.coins}</div>
+    </div>`).join('');
 }
-
-function toggleQuest(idx) {
+function toggleQuest(idx){
   if(S.quests[idx]) return;
-  S.quests[idx] = true;
-  const q = QUESTS[idx];
-  const mult = S.cls==='explorer' ? 2 : 1;
-  addExp(q.exp * mult);
-  addCoins(q.coins * mult);
-  S.questDone++;
-  toast('✅ เควสสำเร็จ! +' + expBonus(q.exp*mult) + ' EXP');
-  checkLvUp();
-  updateDashboardUI();
+  S.quests[idx]=true;
+  const q=QUESTS[idx], mult=S.class_type==='explorer'?2:1;
+  addExp(q.exp*mult); addCoins(q.coins*mult);
+  S.quest_done++; toast('✅ เควสสำเร็จ! +'+expBonus(q.exp*mult)+' EXP');
+  checkLvUp(); updateUI();
 }
 
-// ─── Quiz System ──────────────────────────────────────────────
-let quizOrder = [];
-
-function initQuiz() {
-  const area = document.getElementById('qz-area');
-  const done = document.getElementById('qz-done');
-  if(S.quizFinished) {
-    area.style.display = 'none';
-    done.style.display = 'block';
-    document.getElementById('qz-sum').textContent =
-      `คุณทำถูก ${S.quizScore}/${QUIZZES.length} ข้อ (+${S.quizScore * 50} EXP)`;
+// ─── Quiz ─────────────────────────────────────────────────────
+function initQuiz(){
+  const area=document.getElementById('qz-area'), done=document.getElementById('qz-done');
+  if(S.quiz_finished){
+    area.style.display='none'; done.style.display='block';
+    document.getElementById('qz-sum').textContent=`คุณทำถูก ${S.quizScore}/${QUIZZES.length} ข้อ (+${S.quizScore*50} EXP)`;
     return;
   }
-  area.style.display = 'block';
-  done.style.display = 'none';
-  if(quizOrder.length === 0) {
-    quizOrder = [...Array(QUIZZES.length).keys()];
-    quizOrder.sort(()=>Math.random()-.5);
-  }
+  area.style.display='block'; done.style.display='none';
+  if(quizOrder.length===0){quizOrder=[...Array(QUIZZES.length).keys()].sort(()=>Math.random()-.5);}
   renderQuestion();
 }
-
-function renderQuestion() {
-  const idx = S.quizIdx;
-  if(idx >= QUIZZES.length) { finishQuiz(); return; }
-  const q = QUIZZES[quizOrder[idx]];
-  const total = QUIZZES.length;
-  document.getElementById('qn').textContent = idx + 1;
-  document.getElementById('qt').textContent = total;
-  document.getElementById('qz-pb').style.width = ((idx/total)*100) + '%';
-  document.getElementById('qz-q').textContent = q.q;
-  document.getElementById('qz-res').style.display = 'none';
-  document.getElementById('qz-next').style.display = 'none';
-
-  const labels = ['A','B','C','D'];
-  document.getElementById('qz-opts').innerHTML = q.opts.map((opt,i) => `
-    <button class="qz-opt" onclick="answerQuiz(${i})">
-      <span class="opt-L">${labels[i]}</span>${opt}
-    </button>
-  `).join('');
+function renderQuestion(){
+  const idx=S.quizScore; // ใช้ quizScore เป็น index ที่ตอบไปแล้ว
+  const qIdx=S.quiz_correct+idx < QUIZZES.length ? quizOrder[S.quizIdx]||quizOrder[0] : 0;
+  if(S.quizIdx>=QUIZZES.length){finishQuiz();return;}
+  const q=QUIZZES[quizOrder[S.quizIdx]];
+  const total=QUIZZES.length;
+  document.getElementById('qn').textContent=S.quizIdx+1;
+  document.getElementById('qt').textContent=total;
+  document.getElementById('qz-pb').style.width=((S.quizIdx/total)*100)+'%';
+  document.getElementById('qz-q').textContent=q.q;
+  document.getElementById('qz-res').style.display='none';
+  document.getElementById('qz-next').style.display='none';
+  document.getElementById('qz-opts').innerHTML=q.opts.map((opt,i)=>
+    `<button class="qz-opt" onclick="answerQuiz(${i})">
+      <span class="opt-L">${['A','B','C','D'][i]}</span>${opt}
+    </button>`).join('');
 }
-
-function answerQuiz(chosen) {
-  const idx = S.quizIdx;
-  const q = QUIZZES[quizOrder[idx]];
-  const btns = document.querySelectorAll('.qz-opt');
-  btns.forEach(b => b.disabled = true);
-  const correct = chosen === q.a;
-
-  btns[chosen].classList.add(correct ? 'ok' : 'bad');
+function answerQuiz(chosen){
+  const q=QUIZZES[quizOrder[S.quizIdx]];
+  const btns=document.querySelectorAll('.qz-opt');
+  btns.forEach(b=>b.disabled=true);
+  const correct=chosen===q.a;
+  btns[chosen].classList.add(correct?'ok':'bad');
   if(!correct) btns[q.a].classList.add('ok');
-
-  const res = document.getElementById('qz-res');
-  res.style.display = 'block';
-  if(correct) {
-    res.className = 'qz-res ok';
-    res.textContent = '✅ ถูกต้อง! ' + q.ex;
-    S.quizCorrect++; S.quizScore++;
-    addExp(50); addCoins(10);
-    S.dirty = true;
+  const res=document.getElementById('qz-res'); res.style.display='block';
+  if(correct){
+    res.className='qz-res ok'; res.textContent='✅ ถูกต้อง! '+q.ex;
+    S.quiz_correct++; S.quizScore++;
+    addExp(50); addCoins(10); S.dirty=true;
   } else {
-    res.className = 'qz-res bad';
-    res.textContent = '❌ ผิด — ' + q.ex;
+    res.className='qz-res bad'; res.textContent='❌ ผิด — '+q.ex;
   }
-
-  document.getElementById('qz-next').style.display = 'block';
+  document.getElementById('qz-next').style.display='block';
 }
-
-function nextQuestion() {
+function nextQuestion(){
   S.quizIdx++;
-  if(S.quizIdx >= QUIZZES.length) { finishQuiz(); return; }
+  if(S.quizIdx>=QUIZZES.length){finishQuiz();return;}
   renderQuestion();
 }
-
-function finishQuiz() {
-  S.quizFinished = true;
-  document.getElementById('qz-area').style.display = 'none';
-  document.getElementById('qz-done').style.display = 'block';
-  document.getElementById('qz-sum').textContent =
-    `คุณทำถูก ${S.quizScore}/${QUIZZES.length} ข้อ (+${S.quizScore * 50} EXP รวม)`;
-  toast('🎉 Quiz เสร็จแล้ว! ได้รับ ' + (S.quizScore*50) + ' EXP');
-  updateDashboardUI();
-  savePlayer();
+function finishQuiz(){
+  S.quiz_finished=true;
+  document.getElementById('qz-area').style.display='none';
+  document.getElementById('qz-done').style.display='block';
+  document.getElementById('qz-sum').textContent=`คุณทำถูก ${S.quizScore}/${QUIZZES.length} ข้อ (+${S.quizScore*50} EXP)`;
+  toast('🎉 Quiz เสร็จ! ได้รับ '+(S.quizScore*50)+' EXP');
+  updateUI(); savePlayer();
+}
+function resetQuiz(){
+  S.quizIdx=0; S.quiz_finished=false; S.quizScore=0; quizOrder=[]; initQuiz();
 }
 
-function resetQuiz() {
-  S.quizIdx = 0; S.quizFinished = false; S.quizScore = 0;
-  quizOrder = [];
-  initQuiz();
+// ─── Homework Tab (ดูงานจากครู) ──────────────────────────────
+async function loadHomework(){
+  const el=document.getElementById('hw-list');
+  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--text2);font-size:12px">⏳ กำลังโหลด...</div>';
+  try{
+    // โหลดงานทั้งหมดของห้อง
+    const{data:asgns,error}=await db.from('assignments')
+      .select('*').eq('room',S.room).order('due_date');
+    if(error) throw error;
+    if(!asgns||!asgns.length){
+      el.innerHTML='<div style="text-align:center;padding:28px;color:var(--text2)"><div style="font-size:32px;margin-bottom:8px">📋</div><p style="font-size:12px">ยังไม่มีงาน — รอครูมอบหมาย</p></div>';
+      return;
+    }
+    // โหลดสถานะการส่งของตัวเอง
+    const ids=asgns.map(a=>a.id);
+    const{data:subs}=await db.from('submissions')
+      .select('assignment_id,status,score,submitted_at')
+      .eq('student_id',S.student_id).in('assignment_id',ids);
+    const subMap={};
+    (subs||[]).forEach(s=>{subMap[s.assignment_id]=s;});
+
+    const today=new Date().toISOString().split('T')[0];
+    el.innerHTML='<div class="asgn-student-card">'+asgns.map(a=>{
+      const sub=subMap[a.id];
+      const status=sub?.status||'missing';
+      const isLate=a.due_date<today && status==='missing';
+      const dDiff=Math.ceil((new Date(a.due_date)-new Date())/864e5);
+      const dStr=dDiff<0?`เลย ${Math.abs(dDiff)} วัน`:dDiff===0?'วันนี้!':'อีก '+dDiff+' วัน';
+      const dCol=dDiff<0?'var(--red)':dDiff<=3?'var(--orange)':'var(--teal)';
+      const stLabel=status==='submitted'?'✅ ส่งแล้ว':isLate?'⚠️ ส่งช้า':'❌ ยังไม่ส่ง';
+      const stCls=status==='submitted'?'su':isLate?'la':'mi';
+      return`<div class="asgn-row">
+        <div class="asgn-ic">${status==='submitted'?'📤':isLate?'⚠️':'📄'}</div>
+        <div class="asgn-info">
+          <div class="asgn-title">${a.title}</div>
+          <div class="asgn-meta">
+            <span style="color:${dCol}">📅 ${new Date(a.due_date).toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'})} (${dStr})</span>
+            <span>⭐ ${a.max_score} คะแนน</span>
+            ${sub?.score!=null?`<span style="color:var(--gold)">ได้ ${sub.score}/${a.max_score}</span>`:''}
+          </div>
+        </div>
+        <div class="asgn-status ${stCls}">${stLabel}</div>
+      </div>`;
+    }).join('')+'</div>';
+  }catch(e){
+    el.innerHTML=`<div style="text-align:center;padding:24px;color:var(--red);font-size:12px">❌ โหลดไม่ได้: ${e.message}</div>`;
+  }
 }
 
 // ─── Shop ─────────────────────────────────────────────────────
-function filtShop(filter, btn) {
-  shopFilter = filter;
-  document.querySelectorAll('.sh-tab').forEach(b => b.classList.remove('active'));
+function filtShop(f,btn){
+  shopFilter=f;
+  document.querySelectorAll('.sh-tab').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   renderShop();
 }
-
-function renderShop() {
-  document.getElementById('sh-coins').textContent = S.coins;
-  const items = shopFilter==='all' ? SHOP : SHOP.filter(i=>i.tp===shopFilter);
-  document.getElementById('sh-grid').innerHTML = items.map(item => {
-    const owned   = S.items.includes(item.id);
-    const locked  = S.lv < item.mr;
-    const canBuy  = !owned && !locked && S.coins >= item.pr;
-    return `<div class="sh-item ${owned?'owned':''} ${locked?'lk-item':''}"
-      onclick="${canBuy?'buyItem(\''+item.id+'\')':''}">
+function renderShop(){
+  document.getElementById('sh-coins').textContent=S.coins;
+  const items=shopFilter==='all'?SHOP:SHOP.filter(i=>i.tp===shopFilter);
+  document.getElementById('sh-grid').innerHTML=items.map(item=>{
+    const owned=S.items.includes(item.id), locked=S.level<item.mr;
+    const canBuy=!owned&&!locked&&S.coins>=item.pr;
+    return`<div class="sh-item ${owned?'owned':''} ${locked?'lk-item':''}" onclick="${canBuy?'buyItem(\''+item.id+'\')':''}">
       ${locked?'<span class="lk-lbl">🔒 Lv.'+item.mr+'</span>':''}
       <span class="sh-em">${item.em}</span>
       <div class="sh-nm">${item.nm}</div>
@@ -963,185 +871,125 @@ function renderShop() {
     </div>`;
   }).join('');
 }
-
-function buyItem(id) {
-  const item = SHOP.find(i=>i.id===id);
-  if(!item || S.items.includes(id) || S.coins < item.pr) {
-    toast('❌ ซื้อไม่ได้'); return;
-  }
-  S.coins -= item.pr;
-  S.items.push(id);
-  toast('🛍️ ซื้อ ' + item.nm + ' สำเร็จ!');
-  updateDashboardUI();
-  renderShop();
-  S.dirty = true;
+function buyItem(id){
+  const item=SHOP.find(i=>i.id===id);
+  if(!item||S.items.includes(id)||S.coins<item.pr){toast('❌ ซื้อไม่ได้');return;}
+  S.coins-=item.pr; S.items.push(id);
+  toast('🛍️ ซื้อ '+item.nm+' สำเร็จ!');
+  updateUI(); renderShop(); S.dirty=true;
 }
 
 // ─── Mini Game ────────────────────────────────────────────────
-function shuffle(arr) { return [...arr].sort(()=>Math.random()-.5); }
-
-function startGame() {
+function shuffle(arr){return[...arr].sort(()=>Math.random()-.5);}
+function startGame(){
   if(S.gRunning) return;
   clearInterval(S.gTimerInt);
   S.gRunning=true; S.gScore=0; S.gPairs=0; S.gTimer=60;
   S.gSelL=null; S.gSelR=null; S.gMatchSet=new Set();
-
   document.getElementById('g-res').style.display='none';
   document.getElementById('g-area').style.display='grid';
   document.getElementById('g-btn').textContent='⏸ กำลังเล่น...';
   document.getElementById('g-btn').disabled=true;
   document.getElementById('g-msg').textContent='เลือกชื่อธาตุทางซ้าย แล้วจับคู่สัญลักษณ์ทางขวา';
-
-  const set = shuffle(ELEMENTS).slice(0,4);
-  const names = shuffle(set);
-  const syms  = shuffle(set);
-
-  document.getElementById('g-left').innerHTML = names.map((el,i)=>
+  const set=shuffle(ELEMENTS).slice(0,4);
+  const names=shuffle(set), syms=shuffle(set);
+  document.getElementById('g-left').innerHTML=names.map((el,i)=>
     `<div class="tile" id="L${i}" onclick="selectTile('L',${i},'${el.s}')">
-      <div class="el-nm">${el.n}</div>
-      <div class="el-n">Z=${el.z}</div>
-    </div>`
-  ).join('');
-  document.getElementById('g-right').innerHTML = syms.map((el,i)=>
+      <div class="el-nm">${el.n}</div><div class="el-n">Z=${el.z}</div>
+    </div>`).join('');
+  document.getElementById('g-right').innerHTML=syms.map((el,i)=>
     `<div class="tile" id="R${i}" onclick="selectTile('R',${i},'${el.s}')">
       <div class="el-sym">${el.s}</div>
-    </div>`
-  ).join('');
-
+    </div>`).join('');
   document.getElementById('g-sc').textContent='0';
   document.getElementById('g-pr').textContent='0';
   document.getElementById('g-tm').textContent='60';
-
-  S.gTimerInt = setInterval(()=>{
-    S.gTimer--;
-    document.getElementById('g-tm').textContent = S.gTimer;
-    if(S.gTimer<=0) endGame();
-  },1000);
+  S.gTimerInt=setInterval(()=>{S.gTimer--;document.getElementById('g-tm').textContent=S.gTimer;if(S.gTimer<=0)endGame();},1000);
 }
-
-function selectTile(side, idx, sym) {
-  if(!S.gRunning) return;
-  if(S.gMatchSet.has(sym)) return;
-
-  const el = document.getElementById(side+idx);
+function selectTile(side,idx,sym){
+  if(!S.gRunning||S.gMatchSet.has(sym)) return;
+  const el=document.getElementById(side+idx);
   if(el.classList.contains('matched')) return;
-
-  if(side==='L') {
-    document.querySelectorAll('#g-left .tile').forEach(t=>t.classList.remove('sel'));
-    el.classList.add('sel');
-    S.gSelL = {idx,sym};
-  } else {
-    document.querySelectorAll('#g-right .tile').forEach(t=>t.classList.remove('sel'));
-    el.classList.add('sel');
-    S.gSelR = {idx,sym};
-  }
-
-  if(S.gSelL && S.gSelR) {
-    if(S.gSelL.sym === S.gSelR.sym) {
+  if(side==='L'){document.querySelectorAll('#g-left .tile').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');S.gSelL={idx,sym};}
+  else{document.querySelectorAll('#g-right .tile').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');S.gSelR={idx,sym};}
+  if(S.gSelL&&S.gSelR){
+    if(S.gSelL.sym===S.gSelR.sym){
       document.getElementById('L'+S.gSelL.idx).classList.add('matched');
       document.getElementById('R'+S.gSelR.idx).classList.add('matched');
-      S.gMatchSet.add(S.gSelL.sym);
-      S.gPairs++; S.gScore += 25;
-      document.getElementById('g-sc').textContent = S.gScore;
-      document.getElementById('g-pr').textContent = S.gPairs;
-      document.getElementById('g-msg').textContent = '🎯 จับคู่ถูก! (' + S.gPairs + '/4)';
+      S.gMatchSet.add(S.gSelL.sym); S.gPairs++; S.gScore+=25;
+      document.getElementById('g-sc').textContent=S.gScore;
+      document.getElementById('g-pr').textContent=S.gPairs;
+      document.getElementById('g-msg').textContent='🎯 จับคู่ถูก! ('+S.gPairs+'/4)';
       S.gSelL=null; S.gSelR=null;
       if(S.gPairs===4) endGame();
     } else {
-      ['L'+S.gSelL.idx, 'R'+S.gSelR.idx].forEach(id=>{
-        const t = document.getElementById(id);
+      ['L'+S.gSelL.idx,'R'+S.gSelR.idx].forEach(id=>{
+        const t=document.getElementById(id);
         t.classList.add('shake');
-        setTimeout(()=>{ t.classList.remove('sel','shake'); },350);
+        setTimeout(()=>t.classList.remove('sel','shake'),350);
       });
-      document.getElementById('g-msg').textContent = '❌ ไม่ตรงกัน ลองใหม่';
+      document.getElementById('g-msg').textContent='❌ ไม่ตรงกัน ลองใหม่';
       S.gSelL=null; S.gSelR=null;
     }
   }
 }
-
-function endGame() {
-  clearInterval(S.gTimerInt);
-  S.gRunning=false;
+function endGame(){
+  clearInterval(S.gTimerInt); S.gRunning=false;
   document.getElementById('g-area').style.display='none';
   document.getElementById('g-btn').textContent='▶ เริ่มเกมใหม่';
   document.getElementById('g-btn').disabled=false;
-
-  const bonus = S.gPairs * 15 + (S.gPairs===4 ? S.gTimer*2 : 0);
-  const res = document.getElementById('g-res');
-  res.style.display='block';
-  res.innerHTML = `
-    <div style="font-size:36px;margin-bottom:8px">${S.gPairs===4?'🏆':'⏱️'}</div>
-    <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:16px;margin-bottom:6px">
-      ${S.gPairs===4?'จับคู่ครบ!':'หมดเวลา!'}
-    </div>
-    <div style="font-size:12px;color:var(--text2)">
-      จับคู่ถูก: ${S.gPairs}/4 &nbsp;|&nbsp; คะแนน: ${S.gScore} &nbsp;|&nbsp; โบนัส EXP: +${bonus}
-    </div>`;
-
-  if(bonus > 0) {
-    addExp(bonus);
-    addCoins(Math.round(bonus/5));
-    toast('🎮 รับ ' + bonus + ' EXP จากเกม!');
-  }
-  S.dirty = true;
+  const bonus=S.gPairs*15+(S.gPairs===4?S.gTimer*2:0);
+  const res=document.getElementById('g-res'); res.style.display='block';
+  res.innerHTML=`<div style="font-size:36px;margin-bottom:8px">${S.gPairs===4?'🏆':'⏱️'}</div>
+    <div style="font-family:'Cinzel',serif;color:var(--gold);font-size:16px;margin-bottom:6px">${S.gPairs===4?'จับคู่ครบ!':'หมดเวลา!'}</div>
+    <div style="font-size:12px;color:var(--text2)">จับคู่ถูก: ${S.gPairs}/4 | คะแนน: ${S.gScore} | โบนัส: +${bonus} EXP</div>`;
+  if(bonus>0){addExp(bonus);addCoins(Math.round(bonus/5));toast('🎮 รับ '+bonus+' EXP จากเกม!');}
+  S.dirty=true;
 }
 
 // ─── Leaderboard ─────────────────────────────────────────────
-async function loadLB() {
-  const div = document.getElementById('lb-list');
-  div.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text2);font-size:12px">⏳ กำลังโหลด...</div>';
-
-  try {
-    const { data, error } = await db.from('players')
-      .select('id,name,room,cls,lv,exp,coins,streak')
-      .order('lv',{ascending:false})
-      .order('exp',{ascending:false})
-      .limit(30);
-
+async function loadLB(){
+  const div=document.getElementById('lb-list');
+  div.innerHTML='<div style="padding:20px;text-align:center;color:var(--text2);font-size:12px">⏳ กำลังโหลด...</div>';
+  try{
+    const{data,error}=await db.from('players')
+      .select('student_id,name,room,class_type,level,exp,streak')
+      .eq('room',S.room)
+      .order('exp',{ascending:false}).limit(30);
     if(error) throw error;
-    if(!data || data.length===0) {
-      div.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text2);font-size:12px">ยังไม่มีข้อมูล</div>';
-      return;
-    }
-
-    const medals = ['🥇','🥈','🥉'];
-    const clsColors = ['g','s','b'];
-    div.innerHTML = data.map((p,i) => {
-      const cls = CLS[p.cls] || CLS.alchemist;
-      const rk  = getRankByLv(p.lv||1);
-      const isMe = p.id === S.sid;
-      const rkTxt = i<3 ? medals[i] : (i+1);
-      const rkCls = i<3 ? clsColors[i] : '';
-      return `<div class="lb-row ${isMe?'me':''}">
+    if(!data||!data.length){div.innerHTML='<div style="padding:20px;text-align:center;color:var(--text2);font-size:12px">ยังไม่มีข้อมูล</div>';return;}
+    div.innerHTML=data.map((p,i)=>{
+      const cls=CLS[p.class_type]||CLS.alchemist;
+      const rk=getRankByLv(p.level||1);
+      const isMe=p.student_id===S.student_id;
+      const rkTxt=i<3?['🥇','🥈','🥉'][i]:(i+1);
+      const rkCls=i<3?['g','s','b'][i]:'';
+      return`<div class="lb-row ${isMe?'me':''}">
         <div class="lb-rk ${rkCls}">${rkTxt}</div>
         <div class="lb-av">${cls.emoji}</div>
         <div class="lb-inf">
           <div class="lb-nm">${p.name}${isMe?' (คุณ)':''}</div>
           <div class="lb-sb">${p.room} • ${rk.icon} ${rk.name}</div>
         </div>
-        <div class="lb-ep">Lv.${p.lv||1}</div>
+        <div class="lb-ep">Lv.${p.level||1} • ${(p.exp||0).toLocaleString()} EXP</div>
       </div>`;
     }).join('');
-  } catch(e) {
-    div.innerHTML = `<div style="padding:20px;text-align:center;color:var(--red);font-size:12px">❌ โหลดไม่ได้: ${e.message}</div>`;
+    S.rankNum=data.findIndex(p=>p.student_id===S.student_id)+1||'-';
+    document.getElementById('d-rn').textContent=S.rankNum;
+  }catch(e){
+    div.innerHTML=`<div style="padding:20px;text-align:center;color:var(--red);font-size:12px">❌ โหลดไม่ได้: ${e.message}</div>`;
   }
 }
 
-function getRankByLv(lv) {
-  let r = RANKS[0];
-  for(const k of RANKS) if(lv >= k.minLv) r = k;
-  return r;
-}
+// ─── Autosave ─────────────────────────────────────────────────
+setInterval(()=>{if(S.dirty&&S.student_id)savePlayer();},5*60*1000);
 
-// ─── Auto-save every 5 minutes ───────────────────────────────
-setInterval(()=>{ if(S.dirty && S.sid) savePlayer(); }, 5*60*1000);
-
-// ─── Init ────────────────────────────────────────────────────
-window.onload = () => {
-  // แก้ปัญหาหน้าค้าง: ลบ inline style ออกก่อน showScreen
-  document.querySelectorAll('.screen').forEach(s => s.style.display = '');
+// ─── Init ─────────────────────────────────────────────────────
+window.onload=()=>{
+  document.querySelectorAll('.screen').forEach(s=>s.style.display='');
   showScreen('screen-welcome');
   checkConn();
+  document.getElementById('i-room').addEventListener('input',function(){this.value=this.value.toUpperCase();});
 };
 </script>
 </body>
