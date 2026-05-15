@@ -7,78 +7,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --bg:#0d0f1a;--bg2:#13172a;--bg3:#1a2040;--card:#1e2447;
-  --border:rgba(124,77,255,.22);--purple:#7c4dff;--purp2:#5c35cc;
-  --teal:#00d4b4;--gold:#f5c842;--gold2:#e8a020;
-  --red:#ff4d6d;--green:#4caf50;--orange:#ff9800;
-  --text:#e8eaf6;--text2:#9fa8da;
-}
+:root{--bg:#0d0f1a;--bg2:#13172a;--bg3:#1a2040;--card:#1e2447;--border:rgba(124,77,255,.22);--purple:#7c4dff;--teal:#00d4b4;--gold:#f5c842;--gold2:#e8a020;--red:#ff4d6d;--green:#4caf50;--orange:#ff9800;--text:#e8eaf6;--text2:#9fa8da}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Prompt',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.3) 0%,transparent 100%),
-    radial-gradient(1px 1px at 80% 15%,rgba(255,255,255,.2) 0%,transparent 100%),
-    radial-gradient(1px 1px at 50% 80%,rgba(255,255,255,.2) 0%,transparent 100%);
-}
-.scr{display:none;position:relative;z-index:1}
-.scr.on{display:block}
-.flex-c{display:flex;align-items:center;justify-content:center}
-
-/* LOGIN */
-#scr-login{min-height:100vh}
-.login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 28px;max-width:360px;width:100%;text-align:center}
-.login-logo{font-size:48px;margin-bottom:10px}
-.login-title{font-family:'Cinzel',serif;font-size:19px;color:var(--gold);margin-bottom:3px}
-.login-sub{font-size:11px;color:var(--text2);margin-bottom:22px}
-
+/* SCREENS */
+.scr{display:none}.scr.on{display:block}
+#scr-login{min-height:100vh;display:none;align-items:center;justify-content:center}
+#scr-login.on{display:flex}
+/* LOGIN CARD */
+.lc{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 28px;max-width:360px;width:100%;text-align:center}
+.lc-logo{font-size:48px;margin-bottom:10px}
+.lc-title{font-family:'Cinzel',serif;font-size:19px;color:var(--gold);margin-bottom:3px}
+.lc-sub{font-size:11px;color:var(--text2);margin-bottom:22px}
+.lbl{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:600;text-align:left;display:block}
+.inp{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'Prompt',sans-serif;font-size:13px;width:100%;outline:none}
+.inp:focus{border-color:var(--purple)}
+select.inp{cursor:pointer}
+.inp-wrap{margin-bottom:12px}
+.err{color:var(--red);font-size:11px;margin-bottom:8px;min-height:16px;text-align:left}
 /* NAV */
-.nav{background:rgba(13,15,26,.97);border-bottom:1px solid var(--border);padding:10px 18px;
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
-.nav-logo{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:8px}
-.nav-logo em{font-family:'Prompt',sans-serif;font-style:normal;font-size:11px;color:var(--text2);font-weight:400}
+.nav{background:rgba(13,15,26,.97);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.nav-logo{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);display:flex;align-items:center;gap:6px}
 .nav-tabs{display:flex;gap:3px;flex-wrap:wrap}
-.ntab{background:none;border:none;color:var(--text2);font-family:'Prompt',sans-serif;font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;cursor:pointer;transition:all .2s}
+.ntab{background:none;border:none;color:var(--text2);font-family:'Prompt',sans-serif;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;cursor:pointer;transition:all .2s}
 .ntab:hover,.ntab.on{background:var(--purple);color:#fff}
 .room-badge{background:var(--bg3);border-radius:20px;padding:4px 13px;font-size:12px;font-weight:700;color:var(--teal)}
-
-/* LAYOUT */
+/* MAIN */
 .main{padding:14px;max-width:1000px;margin:0 auto}
 .tab{display:none}.tab.on{display:block}
-
+/* BUTTONS */
+.btn{border:none;border-radius:8px;padding:7px 16px;font-family:'Prompt',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-pu{background:var(--purple);color:#fff}
+.btn-go{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1200}
+.btn-te{background:var(--teal);color:#003830}
+.btn-gh{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-sm{padding:4px 10px;font-size:11px}
 /* CARD */
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:13px}
-.sec{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.sec{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
 .sec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
-
 /* STATS */
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;margin-bottom:14px}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:14px}
 .sc{background:var(--bg3);border-radius:11px;padding:13px 10px;text-align:center;border:1px solid var(--border)}
 .sc-n{font-size:26px;font-weight:700;line-height:1}
 .sc-l{font-size:10px;color:var(--text2);margin-top:3px;font-weight:600}
-.sc.pu .sc-n{color:var(--purple)}.sc.te .sc-n{color:var(--teal)}
-.sc.go .sc-n{color:var(--gold)}.sc.re .sc-n{color:var(--red)}.sc.gr .sc-n{color:var(--green)}
-
-/* INPUTS */
-.inp{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'Prompt',sans-serif;font-size:12px;width:100%}
-.inp::placeholder{color:var(--text2)}
-.inp:focus{outline:none;border-color:var(--purple)}
-select.inp{cursor:pointer}
-.lbl{font-size:10px;color:var(--text2);margin-bottom:3px;font-weight:600}
-.fr{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px}
-.fr .inp{flex:1;min-width:130px;margin-bottom:0}
-
-/* BUTTONS */
-.btn{border:none;border-radius:8px;padding:7px 16px;font-family:'Prompt',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-pu{background:var(--purple);color:#fff}.btn-pu:hover:not(:disabled){opacity:.85}
-.btn-go{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1200}.btn-go:hover:not(:disabled){opacity:.9}
-.btn-te{background:var(--teal);color:#003830}.btn-te:hover:not(:disabled){opacity:.85}
-.btn-re{background:var(--red);color:#fff}.btn-re:hover:not(:disabled){opacity:.85}
-.btn-gh{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn-gh:hover{border-color:var(--purple);color:var(--text)}
-.btn-sm{padding:4px 11px;font-size:10px}
-.btn-xs{padding:3px 8px;font-size:10px}
-
+.sc.pu .sc-n{color:var(--purple)}.sc.te .sc-n{color:var(--teal)}.sc.go .sc-n{color:var(--gold)}.sc.re .sc-n{color:var(--red)}.sc.gr .sc-n{color:var(--green)}
 /* TABLE */
 .tw{overflow-x:auto;border-radius:9px;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:11px}
@@ -86,112 +60,99 @@ th{background:var(--bg3);padding:9px 11px;text-align:left;font-weight:700;color:
 td{padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(124,77,255,.04)}
-
-/* BADGES */
-.badge{display:inline-flex;align-items:center;gap:3px;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;white-space:nowrap}
-.b-pr{background:rgba(76,175,80,.15);color:var(--green)}
-.b-ab{background:rgba(255,77,109,.15);color:var(--red)}
-.b-la{background:rgba(255,152,0,.15);color:var(--orange)}
-.b-su{background:rgba(0,212,180,.15);color:var(--teal)}
-.b-mi{background:rgba(255,77,109,.15);color:var(--red)}
-
-/* ATTENDANCE GRID */
+/* FORM */
+.fr{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.fr .inp{flex:1;min-width:130px}
+/* ATTENDANCE */
 .att-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
 .ac{background:var(--bg3);border:2px solid var(--border);border-radius:9px;padding:9px 10px;display:flex;align-items:flex-start;gap:8px}
 .ac.pr{border-color:var(--green)}.ac.ab{border-color:var(--red)}.ac.la{border-color:var(--orange)}
-.ac-av{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px}
+.ac-av{width:32px;height:32px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .ac-inf{flex:1;min-width:0}
-.ac-nm{font-size:11px;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ac-nm{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ac-id{font-size:9px;color:var(--text2);margin-bottom:5px}
 .ac-btns{display:flex;gap:3px}
-.ab-btn{flex:1;border:none;border-radius:5px;padding:3px 4px;font-size:9px;font-weight:700;cursor:pointer;font-family:'Prompt',sans-serif;transition:all .15s}
-.ab-btn.p{background:rgba(76,175,80,.18);color:var(--green)}
-.ab-btn.p:hover,.ab-btn.p.on{background:var(--green);color:#003300}
-.ab-btn.a{background:rgba(255,77,109,.18);color:var(--red)}
-.ab-btn.a:hover,.ab-btn.a.on{background:var(--red);color:#fff}
-.ab-btn.l{background:rgba(255,152,0,.18);color:var(--orange)}
-.ab-btn.l:hover,.ab-btn.l.on{background:var(--orange);color:#1a0d00}
-
-/* ASSIGN */
-.ar{display:flex;align-items:center;gap:11px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);flex-wrap:wrap}
+.ab-btn{flex:1;border:none;border-radius:5px;padding:3px 4px;font-size:9px;font-weight:700;cursor:pointer;font-family:'Prompt',sans-serif}
+.ab-btn.p{background:rgba(76,175,80,.18);color:var(--green)}.ab-btn.p.on{background:var(--green);color:#003300}
+.ab-btn.a{background:rgba(255,77,109,.18);color:var(--red)}.ab-btn.a.on{background:var(--red);color:#fff}
+.ab-btn.l{background:rgba(255,152,0,.18);color:var(--orange)}.ab-btn.l.on{background:var(--orange);color:#1a0d00}
+/* ASSIGNMENTS */
+.ar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);flex-wrap:wrap}
 .ar:last-child{border-bottom:none}
-.ar:hover{background:rgba(124,77,255,.04)}
 .pb{height:5px;background:var(--bg3);border-radius:5px;overflow:hidden;width:70px}
-.pf{height:100%;background:var(--teal);border-radius:5px;transition:width .4s}
-.ssb{border:none;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Prompt',sans-serif;transition:all .2s}
+.pf{height:100%;background:var(--teal);border-radius:5px}
+.ssb{border:none;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Prompt',sans-serif}
 .ssb.su{background:rgba(0,212,180,.15);color:var(--teal)}.ssb.mi{background:rgba(255,77,109,.15);color:var(--red)}
-.ssb:hover{opacity:.7}
-
 /* CHIP */
-.chip{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--text2)}
+.chip{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer;color:var(--text2)}
 .chip.on{background:var(--purple);color:#fff;border-color:var(--purple)}
-
+/* BADGE */
+.badge{display:inline-flex;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700}
+.b-pr{background:rgba(76,175,80,.15);color:var(--green)}
 /* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:8px 18px;font-size:12px;font-weight:700;z-index:999;animation:tIn .3s ease;pointer-events:none;white-space:nowrap}
-@keyframes tIn{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:8px 18px;font-size:12px;font-weight:700;z-index:999;pointer-events:none;white-space:nowrap}
 /* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:200;padding:14px}
-.mb{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;max-width:480px;width:100%;animation:pop .28s ease;max-height:90vh;overflow-y:auto}
-@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.mt{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.mb{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto}
+.mt{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);margin-bottom:14px}
 .mf{display:flex;gap:7px;margin-top:14px;justify-content:flex-end}
-
 .empty{text-align:center;padding:28px;color:var(--text2)}
-.empty .ei{font-size:32px;margin-bottom:7px}
-@media(max-width:560px){.att-grid{grid-template-columns:1fr 1fr}.sg{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.att-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="scr-login" class="scr on flex-c">
-  <div class="login-box">
-    <div class="login-logo">👩‍🏫</div>
-    <div class="login-title">Teacher Dashboard</div>
-    <div class="login-sub">KruBook Chemistry Classroom</div>
-    <div style="margin-bottom:9px"><div class="lbl">ห้องเรียน</div>
-      <select class="inp" id="l-room"></select></div>
-    <div style="margin-bottom:14px"><div class="lbl">รหัสผ่านครู</div>
-      <input class="inp" type="password" id="l-pass" placeholder="รหัสผ่าน..."></div>
-    <div id="l-err" style="color:var(--red);font-size:11px;margin-bottom:8px;min-height:15px"></div>
+<!-- LOGIN SCREEN -->
+<div id="scr-login" class="scr on">
+  <div class="lc">
+    <div class="lc-logo">👩‍🏫</div>
+    <div class="lc-title">Teacher Dashboard</div>
+    <div class="lc-sub">KruBook Chemistry Classroom</div>
+    <div class="inp-wrap">
+      <label class="lbl">ห้องเรียน</label>
+      <select class="inp" id="l-room"></select>
+    </div>
+    <div class="inp-wrap">
+      <label class="lbl">รหัสผ่านครู</label>
+      <input class="inp" type="password" id="l-pass" placeholder="รหัสผ่าน...">
+    </div>
+    <div class="err" id="l-err"></div>
     <button class="btn btn-go" id="login-btn" style="width:100%;padding:11px;font-size:13px">🔓 เข้าสู่ระบบ</button>
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- MAIN SCREEN -->
 <div id="scr-main" class="scr">
   <nav class="nav">
-    <div class="nav-logo">⚗️ KruBook <em>| Teacher</em></div>
+    <div class="nav-logo">⚗️ KruBook <span style="font-size:11px;color:var(--text2);font-weight:400">| Teacher</span></div>
     <div class="nav-tabs">
-      <button class="ntab on"  onclick="goTab('ov',this)">📊 ภาพรวม</button>
-      <button class="ntab"     onclick="goTab('att',this)">📍 เช็คชื่อ</button>
-      <button class="ntab"     onclick="goTab('asgn',this)">📋 งาน/การบ้าน</button>
-      <button class="ntab"     onclick="goTab('stu',this)">👥 นักเรียน</button>
+      <button class="ntab on"  id="ntab-ov"   onclick="goTab('ov',this)">📊 ภาพรวม</button>
+      <button class="ntab"     id="ntab-att"  onclick="goTab('att',this)">📍 เช็คชื่อ</button>
+      <button class="ntab"     id="ntab-asgn" onclick="goTab('asgn',this)">📋 งาน</button>
+      <button class="ntab"     id="ntab-stu"  onclick="goTab('stu',this)">👥 นักเรียน</button>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <div class="room-badge">🏫 <span id="nav-room">-</span></div>
       <button class="btn btn-gh btn-sm" onclick="doLogout()">ออก</button>
     </div>
   </nav>
-
   <div class="main">
 
     <!-- OVERVIEW -->
     <div id="tab-ov" class="tab on">
       <div class="sec-row">
         <div class="sec">📊 ภาพรวมห้องเรียน</div>
-        <button class="btn btn-pu btn-sm" onclick="refreshAll()">🔄 รีเฟรช</button>
+        <button class="btn btn-pu btn-sm" onclick="loadOv()">🔄 รีเฟรช</button>
       </div>
       <div class="sg">
-        <div class="sc pu"><div class="sc-n" id="ov-t">-</div><div class="sc-l">👥 นักเรียนทั้งหมด</div></div>
-        <div class="sc gr"><div class="sc-n" id="ov-p">-</div><div class="sc-l">✅ มาเรียนวันนี้</div></div>
-        <div class="sc re"><div class="sc-n" id="ov-a">-</div><div class="sc-l">❌ ขาดเรียน</div></div>
-        <div class="sc te"><div class="sc-n" id="ov-s">-</div><div class="sc-l">📤 ส่งงานล่าสุด</div></div>
-        <div class="sc go"><div class="sc-n" id="ov-lv">-</div><div class="sc-l">⚡ Level เฉลี่ย</div></div>
+        <div class="sc pu"><div class="sc-n" id="ov-t">-</div><div class="sc-l">👥 นักเรียน</div></div>
+        <div class="sc gr"><div class="sc-n" id="ov-p">-</div><div class="sc-l">✅ มาวันนี้</div></div>
+        <div class="sc re"><div class="sc-n" id="ov-a">-</div><div class="sc-l">❌ ขาด</div></div>
+        <div class="sc te"><div class="sc-n" id="ov-s">-</div><div class="sc-l">📤 ส่งงาน</div></div>
+        <div class="sc go"><div class="sc-n" id="ov-lv">-</div><div class="sc-l">⚡ Lv.เฉลี่ย</div></div>
       </div>
       <div class="card"><div class="sec">🏆 Top 3</div><div id="ov-top"></div></div>
-      <div class="card"><div class="sec">🕐 เข้าระบบล่าสุด</div><div id="ov-act"></div></div>
+      <div class="card"><div class="sec">🕐 เข้าล่าสุด</div><div id="ov-act"></div></div>
     </div>
 
     <!-- ATTENDANCE -->
@@ -200,22 +161,21 @@ tr:hover td{background:rgba(124,77,255,.04)}
         <div class="sec">📅 เลือกวัน & คาบ</div>
         <div class="fr">
           <div style="flex:1;min-width:130px"><div class="lbl">วันที่</div><input class="inp" type="date" id="att-date"></div>
-          <div style="flex:1;min-width:150px"><div class="lbl">คาบ / วิชา</div><input class="inp" id="att-period" placeholder="เช่น คาบ 1, เคมี ม.5/1"></div>
-          <div style="align-self:flex-end"><button class="btn btn-pu" onclick="loadAtt()">📍 โหลดรายชื่อ</button></div>
+          <div style="flex:1;min-width:150px"><div class="lbl">คาบ / วิชา</div><input class="inp" id="att-period" placeholder="เช่น คาบ 1"></div>
+          <div style="align-self:flex-end"><button class="btn btn-pu" onclick="loadAtt()">📍 โหลด</button></div>
         </div>
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
           <span style="font-size:10px;color:var(--text2);align-self:center">ด่วน:</span>
-          <div class="chip" onclick="qPeriod('คาบ 1',this)">คาบ 1</div>
-          <div class="chip" onclick="qPeriod('คาบ 2',this)">คาบ 2</div>
-          <div class="chip" onclick="qPeriod('คาบ 3',this)">คาบ 3</div>
-          <div class="chip" onclick="qPeriod('คาบ 4',this)">คาบ 4</div>
-          <div class="chip" onclick="qPeriod('คาบ 5',this)">คาบ 5</div>
-          <div class="chip" onclick="qPeriod('คาบ 6',this)">คาบ 6</div>
-          <div class="chip" onclick="qPeriod('คาบ 7',this)">คาบ 7</div>
-          <div class="chip" onclick="qPeriod('คาบ 8',this)">คาบ 8</div>
+          <div class="chip" onclick="qP('คาบ 1',this)">คาบ 1</div>
+          <div class="chip" onclick="qP('คาบ 2',this)">คาบ 2</div>
+          <div class="chip" onclick="qP('คาบ 3',this)">คาบ 3</div>
+          <div class="chip" onclick="qP('คาบ 4',this)">คาบ 4</div>
+          <div class="chip" onclick="qP('คาบ 5',this)">คาบ 5</div>
+          <div class="chip" onclick="qP('คาบ 6',this)">คาบ 6</div>
+          <div class="chip" onclick="qP('คาบ 7',this)">คาบ 7</div>
+          <div class="chip" onclick="qP('คาบ 8',this)">คาบ 8</div>
         </div>
       </div>
-
       <div id="att-bar" style="display:none" class="card">
         <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
           <div style="flex:1">
@@ -227,25 +187,20 @@ tr:hover td{background:rgba(124,77,255,.04)}
               <span style="color:var(--text2)">❓ ยังไม่กรอก: <b id="ac-n">0</b></span>
             </div>
           </div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button class="btn btn-te btn-sm" onclick="markAll('pr')">✅ มาทั้งหมด</button>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-te btn-sm" onclick="markAll('present')">✅ มาทั้งหมด</button>
             <button class="btn btn-gh btn-sm" onclick="saveAtt()">💾 บันทึก</button>
           </div>
         </div>
       </div>
-
       <div class="att-grid" id="att-grid"></div>
-      <div id="att-empty" class="empty"><div class="ei">📍</div><p>เลือกวันที่และคาบ แล้วกด "โหลดรายชื่อ"</p></div>
-
+      <div id="att-empty" class="empty"><div style="font-size:32px;margin-bottom:7px">📍</div><p style="font-size:12px">เลือกวันที่และคาบ แล้วกด "โหลด"</p></div>
       <div style="margin-top:14px">
-        <div class="sec-row">
-          <div class="sec" style="margin:0">📜 ประวัติเช็คชื่อ</div>
-          <button class="btn btn-gh btn-sm" onclick="loadAttHist()">โหลดประวัติ</button>
-        </div>
+        <div class="sec-row"><div class="sec" style="margin:0">📜 ประวัติ</div><button class="btn btn-gh btn-sm" onclick="loadAttHist()">โหลดประวัติ</button></div>
         <div class="card" style="padding:0">
           <div class="tw"><table>
-            <thead><tr><th>วันที่</th><th>คาบ</th><th>✅ มา</th><th>❌ ขาด</th><th>⏰ สาย</th><th>รวม</th></tr></thead>
-            <tbody id="att-hist-body"><tr><td colspan="6" style="text-align:center;padding:18px;color:var(--text2)">กด "โหลดประวัติ"</td></tr></tbody>
+            <thead><tr><th>วันที่</th><th>คาบ</th><th>✅มา</th><th>❌ขาด</th><th>⏰สาย</th><th>รวม</th></tr></thead>
+            <tbody id="att-hist"><tr><td colspan="6" style="text-align:center;padding:16px;color:var(--text2)">กด "โหลดประวัติ"</td></tr></tbody>
           </table></div>
         </div>
       </div>
@@ -256,20 +211,19 @@ tr:hover td{background:rgba(124,77,255,.04)}
       <div class="card">
         <div class="sec">➕ สร้างงานใหม่</div>
         <div class="fr">
-          <div style="flex:2;min-width:180px"><div class="lbl">ชื่องาน / การบ้าน</div><input class="inp" id="an-title" placeholder="เช่น รายงาน Lab ที่ 3"></div>
+          <div style="flex:2;min-width:180px"><div class="lbl">ชื่องาน</div><input class="inp" id="an-title" placeholder="เช่น รายงาน Lab ที่ 3"></div>
           <div style="flex:1;min-width:130px"><div class="lbl">วันกำหนดส่ง</div><input class="inp" type="date" id="an-due"></div>
-          <div style="flex:0 0 90px"><div class="lbl">คะแนนเต็ม</div><input class="inp" type="number" id="an-score" value="10" min="1" max="100"></div>
+          <div style="flex:0 0 80px"><div class="lbl">คะแนนเต็ม</div><input class="inp" type="number" id="an-score" value="10" min="1" max="100"></div>
           <div style="align-self:flex-end"><button class="btn btn-go" onclick="createAsgn()">➕ สร้าง</button></div>
         </div>
       </div>
-
       <div class="card" style="padding:0">
-        <div style="padding:13px 16px 9px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div style="padding:12px 16px 8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
           <div class="sec" style="margin:0">📋 งานทั้งหมด</div>
           <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <div class="chip on" id="af-all"    onclick="filtAsgn('all',this)">ทั้งหมด</div>
-            <div class="chip"   id="af-active" onclick="filtAsgn('active',this)">ยังไม่ถึงกำหนด</div>
-            <div class="chip"   id="af-late"   onclick="filtAsgn('late',this)">เลยกำหนด</div>
+            <div class="chip on" onclick="filtAsgn('all',this)">ทั้งหมด</div>
+            <div class="chip" onclick="filtAsgn('active',this)">ยังไม่ถึงกำหนด</div>
+            <div class="chip" onclick="filtAsgn('late',this)">เลยกำหนด</div>
           </div>
         </div>
         <div id="asgn-list"></div>
@@ -279,7 +233,7 @@ tr:hover td{background:rgba(124,77,255,.04)}
     <!-- STUDENTS -->
     <div id="tab-stu" class="tab">
       <div class="sec-row">
-        <div class="sec">👥 รายชื่อนักเรียน</div>
+        <div class="sec">👥 นักเรียน</div>
         <div style="display:flex;gap:7px;align-items:center">
           <input class="inp" id="stu-q" placeholder="ค้นหาชื่อ..." style="width:160px" oninput="filtStu()">
           <button class="btn btn-pu btn-sm" onclick="loadStu()">🔄</button>
@@ -295,263 +249,313 @@ tr:hover td{background:rgba(124,77,255,.04)}
 
   </div>
 </div>
-
 <div id="modal-ct"></div>
 
 <script>
-/* ══ CONFIG ══ */
-const SUPABASE_URL  = 'https://dbljnonpodjgjbklelug.supabase.co';
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRibGpub25wb2RqZ2pia2xlbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzI0MDYsImV4cCI6MjA5NDMwODQwNn0.2SQeywljjZ0ibkNldP9TdPyIBBVYI02aI4g2FxDvKMI';
-const TEACHER_PASS  = '0804';
-const ROOMS         = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216'];
+// ══════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════
+const SUPABASE_URL = 'https://dbljnonpodjgjbklelug.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRibGpub25wb2RqZ2pia2xlbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzI0MDYsImV4cCI6MjA5NDMwODQwNn0.2SQeywljjZ0ibkNldP9TdPyIBBVYI02aI4g2FxDvKMI';
+const TEACHER_PASS = '0804';
+const ROOMS = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216'];
 
-const {createClient}=supabase;
-const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+// ══════════════════════════════════
+//  SUPABASE
+// ══════════════════════════════════
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let ROOM='', allStudents=[], allAsgns=[], attState={}, attDate='', attPeriod='', asgnFilt='all';
+// ══════════════════════════════════
+//  STATE
+// ══════════════════════════════════
+let ROOM = '';
+let allStudents = [], allAsgns = [];
+let attState = {}, attDate = '', attPeriod = '';
+let asgnFilt = 'all';
 
-/* ── INIT ── */
-window.addEventListener('load',()=>{
-  const sel=document.getElementById('l-room');
-  sel.innerHTML=ROOMS.map(r=>`<option>${r}</option>`).join('');
-  document.getElementById('att-date').value=today();
-  document.getElementById('an-due').valueAsDate=new Date();
-  document.getElementById('att-empty').style.display='block';
+// ══════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+function fmtD(s) {
+  if (!s) return '-';
+  return new Date(s).toLocaleDateString('th-TH', {day:'2-digit', month:'short', year:'2-digit'});
+}
+function dLeft(due) {
+  const d = Math.ceil((new Date(due) - new Date()) / 864e5);
+  if (d < 0) return 'เลย ' + Math.abs(d) + ' วัน';
+  if (d === 0) return 'วันนี้!';
+  return 'อีก ' + d + ' วัน';
+}
+function dCol(due) {
+  const d = Math.ceil((new Date(due) - new Date()) / 864e5);
+  return d < 0 ? 'var(--red)' : d <= 3 ? 'var(--orange)' : 'var(--teal)';
+}
+function clsE(c) {
+  return { alchemist:'🧙', scientist:'🔬', explorer:'🗺️' }[c] || '🧙';
+}
+function toast(m) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = m;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
 
-  // ✅ ผูก event listener หลัง DOM โหลดเสร็จ
-  document.getElementById('login-btn').addEventListener('click', doLogin);
-  document.getElementById('l-pass').addEventListener('keydown', e=>{
-    if(e.key==='Enter') doLogin();
-  });
-});
-
-/* ── LOGIN ── */
-function doLogin(){
-  const pass=document.getElementById('l-pass').value;
-  const room=document.getElementById('l-room').value;
-  if(pass!==TEACHER_PASS){document.getElementById('l-err').textContent='❌ รหัสผ่านไม่ถูกต้อง';return;}
-  ROOM=room;
+// ══════════════════════════════════
+//  LOGIN / LOGOUT
+// ══════════════════════════════════
+function doLogin() {
+  const pass = document.getElementById('l-pass').value;
+  const room = document.getElementById('l-room').value;
+  const err  = document.getElementById('l-err');
+  if (!pass) { err.textContent = '⚠️ กรุณาใส่รหัสผ่าน'; return; }
+  if (pass !== TEACHER_PASS) { err.textContent = '❌ รหัสผ่านไม่ถูกต้อง'; return; }
+  err.textContent = '';
+  ROOM = room;
   document.getElementById('scr-login').classList.remove('on');
   document.getElementById('scr-main').classList.add('on');
-  document.getElementById('nav-room').textContent=ROOM;
-  refreshAll();
+  document.getElementById('nav-room').textContent = ROOM;
+  // init dates
+  document.getElementById('att-date').value = today();
+  document.getElementById('an-due').valueAsDate = new Date();
+  document.getElementById('att-empty').style.display = 'block';
+  loadOv(); loadStu(); loadAsgns();
 }
-function doLogout(){
+function doLogout() {
+  ROOM = '';
   document.getElementById('scr-main').classList.remove('on');
   document.getElementById('scr-login').classList.add('on');
-  document.getElementById('l-pass').value='';
-  document.getElementById('l-err').textContent='';
+  document.getElementById('l-pass').value = '';
+  document.getElementById('l-err').textContent = '';
 }
 
-/* ── HELPERS ── */
-function today(){return new Date().toISOString().split('T')[0];}
-function fmtD(s){if(!s)return'-';return new Date(s).toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'2-digit'});}
-function dLeft(due){const d=Math.ceil((new Date(due)-new Date())/(864e5));if(d<0)return`เลย ${Math.abs(d)} วัน`;if(d===0)return'วันนี้!';return`อีก ${d} วัน`;}
-function dCol(due){const d=Math.ceil((new Date(due)-new Date())/(864e5));return d<0?'var(--red)':d<=3?'var(--orange)':'var(--teal)';}
-function clsE(c){return{alchemist:'🧙',scientist:'🔬',explorer:'🗺️'}[c]||'🧙';}
-function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
-
-/* ── TABS ── */
-function goTab(id,btn){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
-  document.getElementById('tab-'+id).classList.add('on');
-  if(btn)btn.classList.add('on');
-  if(id==='stu')loadStu();
-  if(id==='asgn')loadAsgns();
-  if(id==='att'){document.getElementById('att-empty').style.display='block';document.getElementById('att-grid').innerHTML='';}
+// ══════════════════════════════════
+//  TABS
+// ══════════════════════════════════
+function goTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(t => t.classList.remove('on'));
+  document.getElementById('tab-' + id).classList.add('on');
+  if (btn) btn.classList.add('on');
+  if (id === 'stu') loadStu();
+  if (id === 'asgn') loadAsgns();
 }
 
-/* ── REFRESH ── */
-async function refreshAll(){await Promise.all([loadOv(),loadStu(),loadAsgns()]);}
-
-/* ── OVERVIEW ── */
-async function loadOv(){
-  const{data:st}=await db.from('players').select('*').eq('room',ROOM).order('exp',{ascending:false});
-  allStudents=st||[];
-  const{data:ta}=await db.from('attendance').select('status').eq('room',ROOM).eq('att_date',today());
-  const pr=(ta||[]).filter(a=>a.status==='present').length;
-  const ab=(ta||[]).filter(a=>a.status==='absent').length;
-  const{data:ag}=await db.from('assignments').select('id').eq('room',ROOM).order('created_at',{ascending:false}).limit(1);
-  let sub=0;
-  if(ag&&ag.length){const{data:sb}=await db.from('submissions').select('id').eq('assignment_id',ag[0].id).eq('status','submitted');sub=(sb||[]).length;}
-  const avg=allStudents.length?Math.round(allStudents.reduce((s,p)=>s+(p.level||1),0)/allStudents.length):0;
-  document.getElementById('ov-t').textContent=allStudents.length;
-  document.getElementById('ov-p').textContent=pr;
-  document.getElementById('ov-a').textContent=ab;
-  document.getElementById('ov-s').textContent=sub;
-  document.getElementById('ov-lv').textContent=avg;
-  document.getElementById('ov-top').innerHTML=allStudents.slice(0,3).map((p,i)=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+// ══════════════════════════════════
+//  OVERVIEW
+// ══════════════════════════════════
+async function loadOv() {
+  const { data: st } = await db.from('players').select('*').eq('room', ROOM).order('exp', {ascending:false});
+  allStudents = st || [];
+  const { data: ta } = await db.from('attendance').select('status').eq('room', ROOM).eq('att_date', today());
+  const pr = (ta||[]).filter(a => a.status === 'present').length;
+  const ab = (ta||[]).filter(a => a.status === 'absent').length;
+  const { data: ag } = await db.from('assignments').select('id').eq('room', ROOM).order('created_at', {ascending:false}).limit(1);
+  let sub = 0;
+  if (ag && ag.length) {
+    const { data: sb } = await db.from('submissions').select('id').eq('assignment_id', ag[0].id).eq('status', 'submitted');
+    sub = (sb||[]).length;
+  }
+  const avg = allStudents.length ? Math.round(allStudents.reduce((s,p) => s + (p.level||1), 0) / allStudents.length) : 0;
+  document.getElementById('ov-t').textContent = allStudents.length;
+  document.getElementById('ov-p').textContent = pr;
+  document.getElementById('ov-a').textContent = ab;
+  document.getElementById('ov-s').textContent = sub;
+  document.getElementById('ov-lv').textContent = avg;
+  document.getElementById('ov-top').innerHTML = allStudents.slice(0,3).map((p,i) =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)">
       <div style="font-size:20px;width:26px;text-align:center">${['🥇','🥈','🥉'][i]}</div>
       <div style="width:30px;height:30px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:16px">${clsE(p.class_type)}</div>
-      <div style="flex:1"><div style="font-size:12px;font-weight:700">${p.name}</div><div style="font-size:10px;color:var(--text2)">Lv.${p.level||1} • ${p.rank_name||'Bronze I'}</div></div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700">${p.name}</div><div style="font-size:10px;color:var(--text2)">Lv.${p.level||1}</div></div>
       <div style="font-size:12px;font-weight:800;color:var(--teal)">${(p.exp||0).toLocaleString()} EXP</div>
-    </div>`).join('')||'<div class="empty"><p>ยังไม่มีนักเรียน</p></div>';
-  const rec=allStudents.filter(p=>p.last_login).sort((a,b)=>new Date(b.last_login)-new Date(a.last_login)).slice(0,5);
-  document.getElementById('ov-act').innerHTML=rec.map(p=>`
-    <div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+    </div>`).join('') || '<div class="empty"><p>ยังไม่มีนักเรียน</p></div>';
+  const rec = allStudents.filter(p => p.last_login).sort((a,b) => new Date(b.last_login) - new Date(a.last_login)).slice(0,5);
+  document.getElementById('ov-act').innerHTML = rec.map(p =>
+    `<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
       <div style="font-size:15px">${clsE(p.class_type)}</div>
       <div style="flex:1;font-size:12px">${p.name}</div>
       <div style="font-size:10px;color:var(--text2)">${fmtD(p.last_login)}</div>
       <div style="font-size:11px;font-weight:700;color:var(--teal)">Lv.${p.level||1}</div>
-    </div>`).join('')||'<div class="empty"><p>ยังไม่มีกิจกรรม</p></div>';
+    </div>`).join('') || '<div class="empty"><p>ยังไม่มีกิจกรรม</p></div>';
 }
 
-/* ── STUDENTS ── */
-async function loadStu(){
-  const{data,error}=await db.from('players').select('*').eq('room',ROOM).order('student_id');
-  if(error){toast('❌ โหลดนักเรียนไม่ได้');return;}
-  allStudents=data||[];renderStu(allStudents);
+// ══════════════════════════════════
+//  STUDENTS
+// ══════════════════════════════════
+async function loadStu() {
+  const { data } = await db.from('players').select('*').eq('room', ROOM).order('student_id');
+  allStudents = data || [];
+  renderStu(allStudents);
 }
-function filtStu(){const q=document.getElementById('stu-q').value.toLowerCase();renderStu(allStudents.filter(s=>s.name.toLowerCase().includes(q)));}
-function renderStu(list){
-  const body=document.getElementById('stu-body');
-  if(!list.length){body.innerHTML='<tr><td colspan="10" style="text-align:center;padding:22px;color:var(--text2)">ไม่พบข้อมูล</td></tr>';return;}
-  body.innerHTML=list.map(p=>`<tr>
-    <td style="color:var(--text2);font-size:10px">${p.student_id}</td>
-    <td><div style="display:flex;align-items:center;gap:7px"><span style="font-size:14px">${clsE(p.class_type)}</span><span style="font-weight:700">${p.name}</span></div></td>
-    <td style="color:var(--text2)">${p.class_type||'-'}</td>
-    <td style="font-weight:700;color:var(--purple)">${p.level||1}</td>
-    <td style="color:var(--teal)">${(p.exp||0).toLocaleString()}</td>
-    <td style="color:var(--gold)">🪙${p.coins||0}</td>
-    <td><span class="badge b-pr">${p.rank_name||'Bronze I'}</span></td>
-    <td style="color:var(--orange)">🔥${p.streak||0}</td>
-    <td style="color:var(--text2);font-size:10px">${fmtD(p.last_login)}</td>
-    <td><button class="btn btn-pu btn-xs" onclick="editExp('${p.student_id}','${p.name.replace(/'/g,'')}',${p.exp||0},${p.coins||0})">✏️ แก้ไข</button></td>
-  </tr>`).join('');
+function filtStu() {
+  const q = document.getElementById('stu-q').value.toLowerCase();
+  renderStu(allStudents.filter(s => s.name.toLowerCase().includes(q)));
 }
-function editExp(sid,name,exp,coins){
-  showModal(`✏️ แก้ไข — ${name}`,`
-    <div class="fr">
-      <div style="flex:1"><div class="lbl">EXP ใหม่</div><input class="inp" id="m-exp" type="number" value="${exp}" min="0"></div>
-      <div style="flex:1"><div class="lbl">เหรียญใหม่</div><input class="inp" id="m-coins" type="number" value="${coins}" min="0"></div>
-    </div>
-    <div style="font-size:10px;color:var(--text2);margin-top:4px">💡 ครูสามารถให้ EXP โบนัสหรือปรับเหรียญได้โดยตรง</div>
-  `,async()=>{
-    const ne=parseInt(document.getElementById('m-exp').value)||0;
-    const nc=parseInt(document.getElementById('m-coins').value)||0;
-    const{error}=await db.from('players').update({exp:ne,coins:nc}).eq('student_id',sid);
-    if(error)toast('❌ แก้ไขไม่ได้');else{toast(`✅ แก้ไข ${name} สำเร็จ`);loadStu();loadOv();}
-  },'💾 บันทึก');
+function renderStu(list) {
+  const body = document.getElementById('stu-body');
+  if (!list.length) { body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:22px;color:var(--text2)">ไม่พบข้อมูล</td></tr>'; return; }
+  body.innerHTML = list.map(p =>
+    `<tr>
+      <td style="color:var(--text2);font-size:10px">${p.student_id}</td>
+      <td><div style="display:flex;align-items:center;gap:7px"><span>${clsE(p.class_type)}</span><span style="font-weight:700">${p.name}</span></div></td>
+      <td style="color:var(--text2)">${p.class_type||'-'}</td>
+      <td style="font-weight:700;color:var(--purple)">${p.level||1}</td>
+      <td style="color:var(--teal)">${(p.exp||0).toLocaleString()}</td>
+      <td style="color:var(--gold)">🪙${p.coins||0}</td>
+      <td><span class="badge b-pr">${p.rank_name||'Bronze I'}</span></td>
+      <td style="color:var(--orange)">🔥${p.streak||0}</td>
+      <td style="color:var(--text2);font-size:10px">${fmtD(p.last_login)}</td>
+      <td><button class="btn btn-pu btn-sm" onclick="editExp('${p.student_id}','${p.name.replace(/'/g,'')}',${p.exp||0},${p.coins||0})">✏️</button></td>
+    </tr>`).join('');
+}
+function editExp(sid, name, exp, coins) {
+  showModal('✏️ แก้ไข — ' + name,
+    `<div class="fr">
+      <div style="flex:1"><div class="lbl">EXP</div><input class="inp" id="m-exp" type="number" value="${exp}" min="0"></div>
+      <div style="flex:1"><div class="lbl">เหรียญ</div><input class="inp" id="m-coins" type="number" value="${coins}" min="0"></div>
+    </div>`,
+    async () => {
+      const ne = parseInt(document.getElementById('m-exp').value) || 0;
+      const nc = parseInt(document.getElementById('m-coins').value) || 0;
+      const { error } = await db.from('players').update({exp:ne, coins:nc}).eq('student_id', sid);
+      if (error) toast('❌ แก้ไขไม่ได้');
+      else { toast('✅ แก้ไข ' + name + ' สำเร็จ'); loadStu(); loadOv(); }
+    }, '💾 บันทึก');
 }
 
-/* ── ATTENDANCE ── */
-function qPeriod(p,el){
-  document.getElementById('att-period').value=p;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+// ══════════════════════════════════
+//  ATTENDANCE
+// ══════════════════════════════════
+function qP(p, el) {
+  document.getElementById('att-period').value = p;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
   el.classList.add('on');
 }
-async function loadAtt(){
-  attDate=document.getElementById('att-date').value;
-  attPeriod=document.getElementById('att-period').value.trim();
-  if(!attDate){toast('⚠️ เลือกวันที่ก่อน');return;}
-  if(!attPeriod){toast('⚠️ ใส่ชื่อคาบก่อน');return;}
-  const{data:st}=await db.from('players').select('student_id,name,class_type').eq('room',ROOM).order('student_id');
-  if(!st||!st.length){toast('⚠️ ไม่พบนักเรียนในห้องนี้');return;}
-  const{data:ex}=await db.from('attendance').select('student_id,status').eq('room',ROOM).eq('att_date',attDate).eq('period',attPeriod);
-  attState={};
-  st.forEach(s=>{attState[s.student_id]=null;});
-  (ex||[]).forEach(r=>{attState[r.student_id]=r.status;});
-  renderAttGrid(st);
-  document.getElementById('att-bar').style.display='block';
-  document.getElementById('att-empty').style.display='none';
-  document.getElementById('att-bar-lbl').textContent=`📍 ${attPeriod} — ${fmtD(attDate)}`;
-  updAttCnt();
-}
-function renderAttGrid(studs){
-  document.getElementById('att-grid').innerHTML=studs.map(s=>{
-    const st=attState[s.student_id];
-    const stCls=st==='present'?'pr':st==='absent'?'ab':st==='late'?'la':'';
-    return `<div class="ac ${stCls}" id="ac-${s.student_id}">
+async function loadAtt() {
+  attDate   = document.getElementById('att-date').value;
+  attPeriod = document.getElementById('att-period').value.trim();
+  if (!attDate)   { toast('⚠️ เลือกวันที่ก่อน'); return; }
+  if (!attPeriod) { toast('⚠️ ใส่ชื่อคาบก่อน'); return; }
+  const { data: st } = await db.from('players').select('student_id,name,class_type').eq('room', ROOM).order('student_id');
+  if (!st || !st.length) { toast('⚠️ ไม่พบนักเรียน'); return; }
+  const { data: ex } = await db.from('attendance').select('student_id,status').eq('room', ROOM).eq('att_date', attDate).eq('period', attPeriod);
+  attState = {};
+  st.forEach(s => { attState[s.student_id] = null; });
+  (ex||[]).forEach(r => { attState[r.student_id] = r.status; });
+  document.getElementById('att-grid').innerHTML = st.map(s => {
+    const sv = attState[s.student_id];
+    const sc = sv === 'present' ? 'pr' : sv === 'absent' ? 'ab' : sv === 'late' ? 'la' : '';
+    return `<div class="ac ${sc}" id="ac-${s.student_id}">
       <div class="ac-av">${clsE(s.class_type)}</div>
       <div class="ac-inf">
         <div class="ac-nm">${s.name}</div>
         <div class="ac-id">${s.student_id}</div>
         <div class="ac-btns">
-          <button class="ab-btn p ${st==='present'?'on':''}" onclick="setAtt('${s.student_id}','present',this)">✅มา</button>
-          <button class="ab-btn a ${st==='absent'?'on':''}"  onclick="setAtt('${s.student_id}','absent',this)">❌ขาด</button>
-          <button class="ab-btn l ${st==='late'?'on':''}"    onclick="setAtt('${s.student_id}','late',this)">⏰สาย</button>
+          <button class="ab-btn p ${sv==='present'?'on':''}" onclick="setAtt('${s.student_id}','present',this)">✅มา</button>
+          <button class="ab-btn a ${sv==='absent'?'on':''}"  onclick="setAtt('${s.student_id}','absent',this)">❌ขาด</button>
+          <button class="ab-btn l ${sv==='late'?'on':''}"    onclick="setAtt('${s.student_id}','late',this)">⏰สาย</button>
         </div>
       </div>
     </div>`;
   }).join('');
+  document.getElementById('att-bar').style.display = 'block';
+  document.getElementById('att-empty').style.display = 'none';
+  document.getElementById('att-bar-lbl').textContent = '📍 ' + attPeriod + ' — ' + fmtD(attDate);
+  updCnt();
 }
-function setAtt(sid,status,btn){
-  attState[sid]=status;
-  const card=document.getElementById('ac-'+sid);
-  card.className=`ac ${status==='present'?'pr':status==='absent'?'ab':'la'}`;
-  card.querySelectorAll('.ab-btn').forEach(b=>b.classList.remove('on'));
+function setAtt(sid, status, btn) {
+  attState[sid] = status;
+  const card = document.getElementById('ac-' + sid);
+  card.className = 'ac ' + (status==='present'?'pr':status==='absent'?'ab':'la');
+  card.querySelectorAll('.ab-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  updAttCnt();
+  updCnt();
 }
-function markAll(st){
-  Object.keys(attState).forEach(sid=>{attState[sid]=st==='pr'?'present':'absent';});
-  document.querySelectorAll('.ac').forEach(card=>{
-    const sid=card.id.replace('ac-','');
-    const s=attState[sid];
-    card.className=`ac ${s==='present'?'pr':'ab'}`;
-    card.querySelectorAll('.ab-btn').forEach(b=>b.classList.remove('on'));
+function markAll(status) {
+  Object.keys(attState).forEach(sid => { attState[sid] = status; });
+  document.querySelectorAll('.ac').forEach(card => {
+    const sid = card.id.replace('ac-', '');
+    const s = attState[sid];
+    card.className = 'ac ' + (s==='present'?'pr':'ab');
+    card.querySelectorAll('.ab-btn').forEach(b => b.classList.remove('on'));
     card.querySelector(s==='present'?'.p':'.a')?.classList.add('on');
   });
-  updAttCnt();
+  updCnt();
 }
-function updAttCnt(){
-  const v=Object.values(attState);
-  document.getElementById('ac-p').textContent=v.filter(x=>x==='present').length;
-  document.getElementById('ac-a').textContent=v.filter(x=>x==='absent').length;
-  document.getElementById('ac-l').textContent=v.filter(x=>x==='late').length;
-  document.getElementById('ac-n').textContent=v.filter(x=>!x).length;
+function updCnt() {
+  const v = Object.values(attState);
+  document.getElementById('ac-p').textContent = v.filter(x => x==='present').length;
+  document.getElementById('ac-a').textContent = v.filter(x => x==='absent').length;
+  document.getElementById('ac-l').textContent = v.filter(x => x==='late').length;
+  document.getElementById('ac-n').textContent = v.filter(x => !x).length;
 }
-async function saveAtt(){
-  if(!attDate||!attPeriod){toast('⚠️ โหลดรายชื่อก่อน');return;}
-  const rows=Object.entries(attState).map(([sid,status])=>({room:ROOM,student_id:sid,att_date:attDate,period:attPeriod,status:status||'absent'}));
-  const{error}=await db.from('attendance').upsert(rows,{onConflict:'room,student_id,att_date,period'});
-  if(error){toast('❌ บันทึกไม่ได้: '+error.message);return;}
-  toast(`✅ บันทึกเช็คชื่อ ${rows.length} คน สำเร็จ!`);
-  loadOv();
+async function saveAtt() {
+  if (!attDate || !attPeriod) { toast('⚠️ โหลดรายชื่อก่อน'); return; }
+  const rows = Object.entries(attState).map(([sid, status]) => ({
+    room: ROOM, student_id: sid, att_date: attDate, period: attPeriod,
+    status: status || 'absent'
+  }));
+  const { error } = await db.from('attendance').upsert(rows, {onConflict:'room,student_id,att_date,period'});
+  if (error) toast('❌ บันทึกไม่ได้: ' + error.message);
+  else { toast('✅ บันทึก ' + rows.length + ' คน สำเร็จ!'); loadOv(); }
 }
-async function loadAttHist(){
-  const{data,error}=await db.from('attendance').select('att_date,period,status').eq('room',ROOM).order('att_date',{ascending:false});
-  if(error){toast('❌ โหลดประวัติไม่ได้');return;}
-  const g={};
-  (data||[]).forEach(r=>{const k=`${r.att_date}||${r.period}`;if(!g[k])g[k]={date:r.att_date,period:r.period,p:0,a:0,l:0,n:0};g[k].n++;if(r.status==='present')g[k].p++;else if(r.status==='absent')g[k].a++;else if(r.status==='late')g[k].l++;});
-  const rows=Object.values(g).sort((a,b)=>b.date.localeCompare(a.date));
-  document.getElementById('att-hist-body').innerHTML=rows.length?rows.map(r=>`<tr>
-    <td>${fmtD(r.date)}</td><td style="font-weight:700">${r.period}</td>
-    <td style="color:var(--green);font-weight:700">${r.p}</td>
-    <td style="color:var(--red);font-weight:700">${r.a}</td>
-    <td style="color:var(--orange);font-weight:700">${r.l}</td>
-    <td style="color:var(--text2)">${r.n}</td>
-  </tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:18px;color:var(--text2)">ยังไม่มีประวัติ</td></tr>';
+async function loadAttHist() {
+  const { data } = await db.from('attendance').select('att_date,period,status').eq('room', ROOM).order('att_date', {ascending:false});
+  const g = {};
+  (data||[]).forEach(r => {
+    const k = r.att_date + '||' + r.period;
+    if (!g[k]) g[k] = {date:r.att_date, period:r.period, p:0, a:0, l:0, n:0};
+    g[k].n++;
+    if (r.status==='present') g[k].p++;
+    else if (r.status==='absent') g[k].a++;
+    else if (r.status==='late') g[k].l++;
+  });
+  const rows = Object.values(g).sort((a,b) => b.date.localeCompare(a.date));
+  document.getElementById('att-hist').innerHTML = rows.length
+    ? rows.map(r => `<tr>
+        <td>${fmtD(r.date)}</td><td style="font-weight:700">${r.period}</td>
+        <td style="color:var(--green);font-weight:700">${r.p}</td>
+        <td style="color:var(--red);font-weight:700">${r.a}</td>
+        <td style="color:var(--orange);font-weight:700">${r.l}</td>
+        <td style="color:var(--text2)">${r.n}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--text2)">ยังไม่มีประวัติ</td></tr>';
 }
 
-/* ── ASSIGNMENTS ── */
-async function loadAsgns(){
-  const{data,error}=await db.from('assignments').select('*').eq('room',ROOM).order('due_date');
-  if(error){toast('❌ โหลดงานไม่ได้');return;}
-  allAsgns=data||[];renderAsgns();
+// ══════════════════════════════════
+//  ASSIGNMENTS
+// ══════════════════════════════════
+async function loadAsgns() {
+  const { data } = await db.from('assignments').select('*').eq('room', ROOM).order('due_date');
+  allAsgns = data || [];
+  renderAsgns();
 }
-function filtAsgn(f,el){
-  asgnFilt=f;
-  document.querySelectorAll('#tab-asgn .chip').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');renderAsgns();
+function filtAsgn(f, el) {
+  asgnFilt = f;
+  document.querySelectorAll('#tab-asgn .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  renderAsgns();
 }
-async function renderAsgns(){
-  const el=document.getElementById('asgn-list');
-  const td=today();
-  let list=allAsgns;
-  if(asgnFilt==='active')list=list.filter(a=>a.due_date>=td);
-  if(asgnFilt==='late')list=list.filter(a=>a.due_date<td);
-  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">📋</div><p>ยังไม่มีงาน — สร้างด้านบน</p></div>';return;}
-  const ids=list.map(a=>a.id);
-  const{data:subs}=await db.from('submissions').select('assignment_id,status').in('assignment_id',ids);
-  const sm={};(subs||[]).forEach(s=>{if(!sm[s.assignment_id])sm[s.assignment_id]=0;if(s.status==='submitted')sm[s.assignment_id]++;});
-  const total=allStudents.length||1;
-  el.innerHTML=list.map(a=>{
-    const cnt=sm[a.id]||0;const pct=Math.round(cnt/total*100);
-    return`<div class="ar">
-      <div style="font-size:18px">${a.due_date<td?'📂':'📄'}</div>
+async function renderAsgns() {
+  const el = document.getElementById('asgn-list');
+  const td = today();
+  let list = asgnFilt === 'active' ? allAsgns.filter(a => a.due_date >= td)
+           : asgnFilt === 'late'   ? allAsgns.filter(a => a.due_date < td)
+           : allAsgns;
+  if (!list.length) { el.innerHTML = '<div class="empty"><div style="font-size:28px;margin-bottom:8px">📋</div><p style="font-size:12px">ยังไม่มีงาน — สร้างด้านบน</p></div>'; return; }
+  const ids = list.map(a => a.id);
+  const { data: subs } = await db.from('submissions').select('assignment_id,status').in('assignment_id', ids);
+  const sm = {};
+  (subs||[]).forEach(s => { if (!sm[s.assignment_id]) sm[s.assignment_id] = 0; if (s.status==='submitted') sm[s.assignment_id]++; });
+  const total = allStudents.length || 1;
+  el.innerHTML = list.map(a => {
+    const cnt = sm[a.id] || 0;
+    const pct = Math.round(cnt / total * 100);
+    return `<div class="ar">
+      <div style="font-size:18px">${a.due_date < td ? '📂' : '📄'}</div>
       <div style="flex:1;min-width:140px">
         <div style="font-size:12px;font-weight:700">${a.title}</div>
         <div style="font-size:10px;color:var(--text2);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap">
@@ -560,8 +564,7 @@ async function renderAsgns(){
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <div>
-          <div style="font-size:9px;color:var(--text2);margin-bottom:2px">ส่งแล้ว ${cnt}/${total}</div>
+        <div><div style="font-size:9px;color:var(--text2);margin-bottom:2px">ส่ง ${cnt}/${total}</div>
           <div class="pb"><div class="pf" style="width:${pct}%"></div></div>
         </div>
         <span style="font-size:11px;font-weight:700;color:${pct===100?'var(--teal)':'var(--text2)'}">${pct}%</span>
@@ -571,39 +574,41 @@ async function renderAsgns(){
     </div>`;
   }).join('');
 }
-async function createAsgn(){
-  const title=document.getElementById('an-title').value.trim();
-  const due=document.getElementById('an-due').value;
-  const score=parseInt(document.getElementById('an-score').value)||10;
-  if(!title){toast('⚠️ ใส่ชื่องานก่อน');return;}
-  if(!due){toast('⚠️ เลือกวันกำหนดส่งก่อน');return;}
-  const{error}=await db.from('assignments').insert({room:ROOM,title,due_date:due,max_score:score});
-  if(error){toast('❌ สร้างงานไม่ได้: '+error.message);return;}
-  toast(`✅ สร้างงาน "${title}" สำเร็จ`);
-  document.getElementById('an-title').value='';
-  loadAsgns();
+async function createAsgn() {
+  const title = document.getElementById('an-title').value.trim();
+  const due   = document.getElementById('an-due').value;
+  const score = parseInt(document.getElementById('an-score').value) || 10;
+  if (!title) { toast('⚠️ ใส่ชื่องานก่อน'); return; }
+  if (!due)   { toast('⚠️ เลือกวันกำหนดส่งก่อน'); return; }
+  const { error } = await db.from('assignments').insert({room:ROOM, title, due_date:due, max_score:score});
+  if (error) toast('❌ สร้างไม่ได้: ' + error.message);
+  else { toast('✅ สร้างงาน "' + title + '" สำเร็จ'); document.getElementById('an-title').value = ''; loadAsgns(); }
 }
-async function delAsgn(id,title){
-  if(!confirm(`ลบงาน "${title}" หรือไม่?`))return;
-  await db.from('submissions').delete().eq('assignment_id',id);
-  const{error}=await db.from('assignments').delete().eq('id',id);
-  if(error)toast('❌ ลบไม่ได้');else{toast(`🗑️ ลบ "${title}" แล้ว`);loadAsgns();}
+async function delAsgn(id, title) {
+  if (!confirm('ลบงาน "' + title + '" หรือไม่?')) return;
+  await db.from('submissions').delete().eq('assignment_id', id);
+  const { error } = await db.from('assignments').delete().eq('id', id);
+  if (error) toast('❌ ลบไม่ได้');
+  else { toast('🗑️ ลบ "' + title + '" แล้ว'); loadAsgns(); }
 }
-async function openSubs(asgnId,title,maxScore){
-  const{data:st}=await db.from('players').select('student_id,name,class_type').eq('room',ROOM).order('student_id');
-  const{data:sb}=await db.from('submissions').select('*').eq('assignment_id',asgnId);
-  const sbMap={};(sb||[]).forEach(s=>{sbMap[s.student_id]=s;});
-  const rows=(st||[]).map(s=>{
-    const sub=sbMap[s.student_id];const st2=sub?.status||'missing';const sc=sub?.score??'';
-    return`<tr>
+async function openSubs(asgnId, title, maxScore) {
+  const { data: st } = await db.from('players').select('student_id,name,class_type').eq('room', ROOM).order('student_id');
+  const { data: sb } = await db.from('submissions').select('*').eq('assignment_id', asgnId);
+  const sbMap = {};
+  (sb||[]).forEach(s => { sbMap[s.student_id] = s; });
+  const rows = (st||[]).map(s => {
+    const sub = sbMap[s.student_id];
+    const st2 = sub?.status || 'missing';
+    const sc  = sub?.score ?? '';
+    return `<tr>
       <td>${clsE(s.class_type)} ${s.name}</td>
       <td><button class="ssb ${st2}" id="ssb-${s.student_id}" onclick="togSub('${s.student_id}',this)">${st2==='submitted'?'✅ ส่งแล้ว':'❌ ยังไม่ส่ง'}</button></td>
-      <td><input type="number" class="inp" id="ssc-${s.student_id}" value="${sc}" min="0" max="${maxScore}" placeholder="-" style="width:65px;padding:3px 7px;font-size:11px"></td>
-      <td style="color:var(--text2);font-size:10px">${sub?.submitted_at?fmtD(sub.submitted_at):'-'}</td>
+      <td><input type="number" class="inp" id="ssc-${s.student_id}" value="${sc}" min="0" max="${maxScore}" placeholder="-" style="width:60px;padding:3px 7px;font-size:11px"></td>
+      <td style="color:var(--text2);font-size:10px">${sub?.submitted_at ? fmtD(sub.submitted_at) : '-'}</td>
     </tr>`;
   }).join('');
-  showModal(`📝 ${title}`,`
-    <div style="max-height:350px;overflow-y:auto">
+  showModal('📝 ' + title,
+    `<div style="max-height:340px;overflow-y:auto">
       <div class="tw"><table>
         <thead><tr><th>นักเรียน</th><th>สถานะ</th><th>คะแนน/${maxScore}</th><th>วันที่ส่ง</th></tr></thead>
         <tbody>${rows}</tbody>
@@ -612,45 +617,62 @@ async function openSubs(asgnId,title,maxScore){
     <div style="margin-top:9px;display:flex;gap:6px;flex-wrap:wrap">
       <button class="btn btn-te btn-sm" onclick="markAllSub()">✅ ส่งทั้งหมด</button>
       <button class="btn btn-gh btn-sm" onclick="markAllMiss()">❌ ไม่ส่งทั้งหมด</button>
-    </div>
-  `,()=>saveAllSubs(asgnId,st||[],maxScore),'💾 บันทึกทั้งหมด');
+    </div>`,
+    () => saveAllSubs(asgnId, st||[], maxScore), '💾 บันทึกทั้งหมด');
 }
-function togSub(sid,btn){
-  const cur=btn.classList.contains('su');
-  btn.className=`ssb ${cur?'mi':'su'}`;
-  btn.textContent=cur?'❌ ยังไม่ส่ง':'✅ ส่งแล้ว';
+function togSub(sid, btn) {
+  const cur = btn.classList.contains('su');
+  btn.className = 'ssb ' + (cur ? 'mi' : 'su');
+  btn.textContent = cur ? '❌ ยังไม่ส่ง' : '✅ ส่งแล้ว';
 }
-function markAllSub(){document.querySelectorAll('.ssb').forEach(b=>{b.className='ssb su';b.textContent='✅ ส่งแล้ว';});}
-function markAllMiss(){document.querySelectorAll('.ssb').forEach(b=>{b.className='ssb mi';b.textContent='❌ ยังไม่ส่ง';});}
-async function saveAllSubs(asgnId,studs,maxScore){
-  const rows=studs.map(s=>{
-    const btn=document.getElementById(`ssb-${s.student_id}`);
-    const scoreEl=document.getElementById(`ssc-${s.student_id}`);
-    const status=btn?.classList.contains('su')?'submitted':'missing';
-    const score=scoreEl?.value!==''?parseInt(scoreEl.value):null;
-    return{assignment_id:asgnId,student_id:s.student_id,room:ROOM,status,score,submitted_at:status==='submitted'?new Date().toISOString():null};
+function markAllSub()  { document.querySelectorAll('.ssb').forEach(b => { b.className='ssb su'; b.textContent='✅ ส่งแล้ว'; }); }
+function markAllMiss() { document.querySelectorAll('.ssb').forEach(b => { b.className='ssb mi'; b.textContent='❌ ยังไม่ส่ง'; }); }
+async function saveAllSubs(asgnId, studs, maxScore) {
+  const rows = studs.map(s => {
+    const btn     = document.getElementById('ssb-' + s.student_id);
+    const scoreEl = document.getElementById('ssc-' + s.student_id);
+    const status  = btn?.classList.contains('su') ? 'submitted' : 'missing';
+    const score   = scoreEl?.value !== '' ? parseInt(scoreEl.value) : null;
+    return { assignment_id:asgnId, student_id:s.student_id, room:ROOM, status, score, submitted_at: status==='submitted' ? new Date().toISOString() : null };
   });
-  const{error}=await db.from('submissions').upsert(rows,{onConflict:'assignment_id,student_id'});
-  if(error)toast('❌ บันทึกไม่ได้: '+error.message);
-  else{toast('✅ บันทึกสถานะงานสำเร็จ');loadAsgns();}
+  const { error } = await db.from('submissions').upsert(rows, {onConflict:'assignment_id,student_id'});
+  if (error) toast('❌ บันทึกไม่ได้: ' + error.message);
+  else { toast('✅ บันทึกสถานะงานสำเร็จ'); loadAsgns(); }
 }
 
-/* ── MODAL ── */
-function showModal(title,body,onOk,okTxt){
-  document.getElementById('modal-ct').innerHTML=`
+// ══════════════════════════════════
+//  MODAL
+// ══════════════════════════════════
+function showModal(title, body, onOk, okTxt) {
+  document.getElementById('modal-ct').innerHTML = `
     <div class="mbg" id="mbg" onclick="if(event.target===this)closeMod()">
       <div class="mb">
         <div class="mt">${title}</div>
-        <div id="mbody">${body}</div>
+        <div>${body}</div>
         <div class="mf">
           <button class="btn btn-gh" onclick="closeMod()">ยกเลิก</button>
           <button class="btn btn-go" id="mok">${okTxt||'ยืนยัน'}</button>
         </div>
       </div>
     </div>`;
-  document.getElementById('mok').onclick=()=>{closeMod();if(onOk)onOk();};
+  document.getElementById('mok').onclick = () => { closeMod(); if (onOk) onOk(); };
 }
-function closeMod(){document.getElementById('mbg')?.remove();}
+function closeMod() { document.getElementById('mbg')?.remove(); }
+
+// ══════════════════════════════════
+//  INIT — ผูก event หลัง DOM พร้อม
+// ══════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  // เติม dropdown ห้อง
+  const sel = document.getElementById('l-room');
+  sel.innerHTML = ROOMS.map(r => '<option value="' + r + '">' + r + '</option>').join('');
+
+  // ผูกปุ่ม login
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('l-pass').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doLogin();
+  });
+});
 </script>
 </body>
 </html>
