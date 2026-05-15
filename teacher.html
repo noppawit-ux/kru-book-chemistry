@@ -144,14 +144,6 @@ tr:hover td{background:rgba(124,77,255,.04)}
 </head>
 <body>
 
-<script>
-/* ══ CONFIG ══ */
-const SUPABASE_URL  = 'https://dbljnonpodjgjbklelug.supabase.co';
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRibGpub25wb2RqZ2pia2xlbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzI0MDYsImV4cCI6MjA5NDMwODQwNn0.2SQeywljjZ0ibkNldP9TdPyIBBVYI02aI4g2FxDvKMI';
-const TEACHER_PASS  = '0804';      // เปลี่ยนรหัสผ่านครูได้ที่นี่
-const ROOMS         = ['CHEM602','CHEM604','CHEM606','CHEM217','CHEM216','CHEM101'];
-</script>
-
 <!-- LOGIN -->
 <div id="scr-login" class="scr on flex-c">
   <div class="login-box">
@@ -161,9 +153,9 @@ const ROOMS         = ['CHEM602','CHEM604','CHEM606','CHEM217','CHEM216','CHEM10
     <div style="margin-bottom:9px"><div class="lbl">ห้องเรียน</div>
       <select class="inp" id="l-room"></select></div>
     <div style="margin-bottom:14px"><div class="lbl">รหัสผ่านครู</div>
-      <input class="inp" type="password" id="l-pass" placeholder="รหัสผ่าน..." onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <input class="inp" type="password" id="l-pass" placeholder="รหัสผ่าน..."></div>
     <div id="l-err" style="color:var(--red);font-size:11px;margin-bottom:8px;min-height:15px"></div>
-    <button class="btn btn-go" style="width:100%;padding:11px;font-size:13px" onclick="doLogin()">🔓 เข้าสู่ระบบ</button>
+    <button class="btn btn-go" id="login-btn" style="width:100%;padding:11px;font-size:13px">🔓 เข้าสู่ระบบ</button>
   </div>
 </div>
 
@@ -307,6 +299,12 @@ const ROOMS         = ['CHEM602','CHEM604','CHEM606','CHEM217','CHEM216','CHEM10
 <div id="modal-ct"></div>
 
 <script>
+/* ══ CONFIG ══ */
+const SUPABASE_URL  = 'https://dbljnonpodjgjbklelug.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRibGpub25wb2RqZ2pia2xlbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3MzI0MDYsImV4cCI6MjA5NDMwODQwNn0.2SQeywljjZ0ibkNldP9TdPyIBBVYI02aI4g2FxDvKMI';
+const TEACHER_PASS  = '0804';
+const ROOMS         = ['CHEM602','CHEM604','CHEM606','CHEM101','CHEM217','CHEM216'];
+
 const {createClient}=supabase;
 const db=createClient(SUPABASE_URL,SUPABASE_KEY);
 
@@ -319,6 +317,12 @@ window.addEventListener('load',()=>{
   document.getElementById('att-date').value=today();
   document.getElementById('an-due').valueAsDate=new Date();
   document.getElementById('att-empty').style.display='block';
+
+  // ✅ ผูก event listener หลัง DOM โหลดเสร็จ
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('l-pass').addEventListener('keydown', e=>{
+    if(e.key==='Enter') doLogin();
+  });
 });
 
 /* ── LOGIN ── */
