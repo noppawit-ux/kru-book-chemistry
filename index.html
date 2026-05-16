@@ -476,6 +476,15 @@ const CLS = {
   explorer: {emoji:'🗺️',name:'Explorer'},
 };
 
+const PRIVS = [
+  {ic:'📝', tx:'ขอยืมเวลาส่งงาน +1 วัน',    mr:0},
+  {ic:'💬', tx:'ถามคำถามพิเศษได้ 3 ข้อ',     mr:1},
+  {ic:'🪑', tx:'เลือกที่นั่งในห้องได้อิสระ',  mr:2},
+  {ic:'🎯', tx:'ข้ามการบ้าน 1 ครั้ง/เดือน',  mr:3},
+  {ic:'⭐', tx:'คะแนนสอบโบนัส +5%',           mr:4},
+  {ic:'👑', tx:'ตั้งชื่อโจทย์ Quiz ของครู',   mr:6},
+];
+
 // ─── Helpers ──────────────────────────────────────────────────
 const getRankIdx = () => { let i=0; for(let j=0;j<RANKS.length;j++) if(S.level>=RANKS[j].minLv) i=j; return i; };
 const getRank    = () => RANKS[getRankIdx()];
